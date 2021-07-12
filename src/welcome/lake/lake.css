@@ -1,0 +1,6 @@
+.lake {
+  background: url("../../assets/robot-lake.jpeg") no-repeat center center fixed;
+  background-size: 100vw, 66vh;
+  height: 100vh;
+  width: 100vw;
+}
