@@ -1,0 +1,73 @@
+.beach {
+  height: 110vh;
+  width: 100vw;
+}
+
+.beach > img{
+  width: 100vw;
+  height: 110vh;
+  object-fit: cover;
+  object-position: 30% 65%;
+  z-index: -1;
+  opacity: 0.85;
+}
+
+.stats {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 33vw;
+  top: 250vh;
+  width: 90vw;
+}
+
+.stats h2 {
+  font-size: 5vh;
+  color: white;
+  font-style: bold;
+  margin-left: 15vw;
+  padding-bottom: 5vh;
+}
+
+.beach > article {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50vw;
+  top: 300vh;
+  display: flex;
+  justify-content: space-evenly;
+  width: 90vw;
+}
+
+.beach > article > section:hover {
+  opacity: 0.6;
+}
+
+.beach > article > section {
+  background: rgba(114, 137, 218, 0.6);
+  border-radius: 15px;
+  height: 8vh;
+  width: 15vw;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.stats > h2:nth-child(1) {
+  margin-left: 30vw;
+}
+
+.stats > h2:nth-child(2) {
+  margin-left: 40vw;
+}
+
+.stats > h2:nth-child(3) {
+  margin-left: 50vw;
+}
+
+.stats > h2:nth-child(4) {
+  margin-left: 60vw;
+}
+
+.stats > h2:nth-child(5) {
+  margin-left: 70vw;
+}

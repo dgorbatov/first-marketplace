@@ -1,0 +1,32 @@
+.yard {
+  height: 110vh;
+  width: 100vw;
+}
+
+.yard > img{
+  width: 110vw;
+  height: 110vh;
+  object-fit: cover;
+  object-position: 30% 40%;
+  z-index: -1;
+  opacity: 0.85;
+}
+
+.yard h1, .yard h2 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-style: bold;
+}
+
+.yard h1 {
+  top: 130vh;
+  font-size: 10vh;
+  left: 20.5vw;
+}
+
+.yard h2 {
+  top: 150vh;
+  font-size: 5vh;
+  left: 40vw;
+}

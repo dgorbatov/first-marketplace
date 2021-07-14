@@ -12,13 +12,15 @@
   justify-content: space-evenly;
   align-items: center;
 }
-.footer p {
+
+.links > p, .contact-us {
   font-family: Petrona;
   font-style: normal;
   font-weight: bold;
   font-size: 3vh;
-  line-height: 27px;
   margin-left: 2vw;
+  text-decoration: none;
+  color: black;
 }
 
 .footer img {
@@ -33,4 +35,8 @@
 .icons img {
   height: 8vh;
   margin: 2vw;
+}
+
+.footer > section > *:hover {
+  opacity: 0.8;
 }

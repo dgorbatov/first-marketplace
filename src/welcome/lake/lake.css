@@ -1,6 +1,48 @@
 .lake {
-  background: url("../../assets/robot-lake.jpeg") no-repeat center center fixed;
-  background-size: 100vw, 66vh;
   height: 100vh;
   width: 100vw;
+  text-align: center;
+}
+
+.lake-photo {
+  width: 110vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: 100% 60%;
+  z-index: -1;
+  opacity: 0.9;
+}
+
+.lake h1, .lake h2, .lake-logo {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50vw;
+}
+
+.lake h1, .lake h2 {
+  color: #CACACA;
+  font-style: bold;
+  width: 90vw;
+}
+
+.lake h1 {
+  top: 53vh;
+  font-size: 10vh;
+}
+
+.lake h2 {
+  top: 66vh;
+  font-size: 5vh;
+}
+
+.lake-logo {
+  top: 35vh;
+}
+
+.lake h1, .lake h2, .lake-logo {
+  margin-bottom: 10vh !important;
+}
+
+.lake-logo {
+  height: 55vh;
 }
