@@ -21,7 +21,7 @@
 }
 
 .stats h2 {
-  font-size: 5vh;
+  font-size: 3vw;
   color: white;
   font-style: bold;
   margin-left: 15vw;
@@ -38,10 +38,6 @@
   width: 90vw;
 }
 
-.beach > article > section:hover {
-  opacity: 0.6;
-}
-
 .beach > article > section {
   background: rgba(114, 137, 218, 0.6);
   border-radius: 15px;
@@ -50,6 +46,16 @@
   display: flex;
   justify-content: center;
   align-content: center;
+}
+
+
+.beach > article > section:hover {
+  opacity: 0.6;
+}
+
+
+.beach > article > section > h2 {
+  font-size: 1.5vw;
 }
 
 .stats > h2:nth-child(1) {

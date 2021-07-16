@@ -1,12 +1,15 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Welcome from "./welcome/welcome"
+import Welcome from "./welcome/welcome";
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Switch>
+          <Route path="/" exact>
+            <p>Hello World!</p>
+          </Route>
           <Route path="/welcome" exact>
             <Welcome />
           </Route>

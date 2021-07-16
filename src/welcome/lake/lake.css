@@ -27,22 +27,22 @@
 
 .lake h1 {
   top: 53vh;
-  font-size: 10vh;
+  font-size: 5vw;
 }
 
 .lake h2 {
   top: 66vh;
-  font-size: 5vh;
+  font-size: 3vw;
 }
 
 .lake-logo {
-  top: 35vh;
+  top: 32vh;
 }
 
 .lake h1, .lake h2, .lake-logo {
-  margin-bottom: 10vh !important;
+  margin-bottom: 3vh !important;
 }
 
 .lake-logo {
-  height: 55vh;
+  height: 30vw;
 }

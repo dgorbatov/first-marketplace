@@ -17,14 +17,14 @@
   font-family: Petrona;
   font-style: normal;
   font-weight: bold;
-  font-size: 3vh;
+  font-size: 1.5vw;
   margin-left: 2vw;
   text-decoration: none;
   color: black;
 }
 
 .footer img {
-  height: 25vh;
+  width: 14vw;
   justify-self: center;
 }
 
@@ -33,10 +33,10 @@
 }
 
 .icons img {
-  height: 8vh;
+  width: 4vw;
   margin: 2vw;
 }
 
 .footer > section > *:hover {
-  opacity: 0.8;
+  opacity: 0.6;
 }
