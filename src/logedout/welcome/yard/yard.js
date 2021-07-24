@@ -1,5 +1,5 @@
 import "./yard.css";
-import yard from "../../assets/robot-yard.png";
+import yard from "../../../assets/robot-yard.png";
 
 function Lake() {
   return (

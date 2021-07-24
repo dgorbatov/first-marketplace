@@ -1,5 +1,6 @@
 import "./beach.css";
-import beach from "../../assets/robot-beach.png";
+import beach from "../../../assets/robot-beach.png";
+import { Link } from "react-router-dom";
 
 function Lake() {
   return (
@@ -15,15 +16,15 @@ function Lake() {
 
       <article>
         <section>
-          <h2>Donate</h2>
+          <Link>Donate</Link>
         </section>
 
         <section>
-          <h2>Login</h2>
+          <Link to="/ss/ls/login">Login</Link>
         </section>
 
         <section>
-          <h2>Signup</h2>
+          <Link to="/ss/ls/signup">Signup</Link>
         </section>
       </article>
     </div>

@@ -1,7 +1,7 @@
 import './footer.css';
-import logo from "../../assets/logo.png"
-import mail from "../../assets/gmail.svg"
-import youtube from "../../assets/youtube.svg"
+import logo from "../../../assets/logo.png"
+import mail from "../../../assets/gmail.svg"
+import youtube from "../../../assets/youtube.svg"
 import { animateScroll as scroll } from 'react-scroll'
 import { Link } from 'react-router-dom';
 
@@ -11,11 +11,11 @@ function Footer() {
     <div className="footer">
       <section className="links">
         <p onClick={() => { scroll.scrollToTop(); }}>Back to Top</p>
-        <Link to="/contact" className="contact-us">Contact Us</Link>
+        <Link to="/ss/contact" className="contact-us">Contact Us</Link>
       </section>
 
       <section>
-        <Link to="/"><img src={logo} alt="Our logo" onClick={() => { window.location.href = "/" }}></img></Link>
+        <Link to="/"><img src={logo} alt="Our logo"></img></Link>
       </section>
 
       <section className="icons">

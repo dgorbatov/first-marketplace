@@ -1,0 +1,58 @@
+.contact {
+  background-image: url("../../assets/ftc-dirt.jpg");
+  background-position: center;
+  background-size: cover;
+  background-position-y: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact article {
+  height: 85vh;
+  width: 60vw;
+  background-color: #C4C4C4;
+  border-radius: 2%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.contact article > * {
+  margin-top: 4vh;
+  margin-left: 5vw;
+}
+
+.contact article > h1 {
+  font-size: 2.5vw;
+}
+
+.contact input {
+  height: 3vw;
+  border: 0px;
+  width: 20vw;
+}
+
+.contact textarea {
+  border: 0px;
+  height: 25vh;
+  width: 50vw;
+}
+
+.contact button {
+  background-color: #63E100;
+  border: 0px;
+  height: 7vh;
+  width: 10vw;
+  font-size: 1vw;
+  align-self: flex-end;
+  margin-right: 4vw;
+  margin-top: 4vh;
+}
+
+.contact button:hover {
+  opacity: 0.7;
+}

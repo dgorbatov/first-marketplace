@@ -54,8 +54,11 @@
 }
 
 
-.beach > article > section > h2 {
+.beach > article > section > * {
   font-size: 1.5vw;
+  text-decoration: none;
+  color: black;
+  margin-top: 2vh;
 }
 
 .stats > h2:nth-child(1) {

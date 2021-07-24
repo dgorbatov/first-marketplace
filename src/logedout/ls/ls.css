@@ -1,0 +1,130 @@
+.ls {
+  background-image: url("../../assets/ftc-dirt.jpg");
+  background-position: center;
+  background-size: cover;
+  background-position-y: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ls > article {
+  background-color:#C4C4C4;
+  height: 80vh;
+  width: 30vw;
+  border-radius: 4%;
+}
+
+.ls div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ls h1 {
+  font-size: 2vw;
+  margin-top: 6vh;
+}
+
+.login-link {
+  font-size: 1.8vw;
+  color: black;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  opacity: 0.8;
+}
+
+.ls > article section > section {
+  height: 8vh;
+  width: 20vw;
+  border-radius: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vh;
+}
+
+.input-contain{
+  position: relative;
+}
+
+.ls input{
+  height: 5vh;
+  width: 20vw;
+  border: 2px solid black;
+  border-radius: 1rem;
+}
+
+input:focus{
+  outline: none;
+}
+
+input:focus + .placeholder-text .text, :not(input[value=""]) + .placeholder-text .text{
+  background-color: white;
+  font-size: 1.1rem;
+  color: black;
+  transform: translate(0, -170%);
+}
+
+input:focus + .placeholder-text .text{
+  border-color: blueviolet;
+  color: blueviolet;
+}
+
+.placeholder-text{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 3px solid transparent;
+  background-color: transparent;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.text{
+  font-size: 1.4rem;
+  padding: 0 0.5rem;
+  background-color: transparent;
+  transform: translate(0);
+  color: black;
+  transition: transform 0.15s ease-out, font-size 0.15s ease-out, background-color 0.2s ease-out, color 0.15s ease-out;
+}
+
+input, .placeholder-text{
+  font-size: 1.4rem;
+  padding: 0 1.2rem;
+}
+
+.ls > article section > section:hover {
+  opacity: 0.8;
+}
+
+.ls > article section > section > p {
+  font-size: 1.5vw;
+  font-weight: 400;
+}
+
+.ls > article section > section:nth-child(1) {
+  background-color: #DB4437;
+}
+
+.ls > article section > section:nth-child(2) {
+  background-color: #4267B2;
+}
+
+.ls > article section > section:nth-child(3) {
+  background-color: #6e5494;
+}
+
+.ls > article section > section:nth-child(4) {
+  background-color: #51D600;
+  margin-bottom: 8vh;
+}

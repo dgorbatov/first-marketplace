@@ -1,17 +1,8 @@
 import "./lake.css";
-import lake from "../../assets/robot-lake.png";
-import logo from "../../assets/logo-light.png";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import { useEffect } from "react";
+import lake from "../../../assets/robot-lake.png";
+import logo from "../../../assets/logo-light.png";
 
 function Lake() {
-
-  useEffect(() => {
-     AOS.init({
-      duration: 400
-     });
-  }, []);
 
   return (
     <div className="lake">
