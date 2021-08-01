@@ -18,3 +18,12 @@ body {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   background-color: rgb(107, 107, 107);
 }
+
+::placeholder {
+  font-size: 1vw;
+  color: #CACACA;
+}
+
+input:focus {
+  outline: none;
+}

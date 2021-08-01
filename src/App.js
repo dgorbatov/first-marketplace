@@ -1,5 +1,6 @@
 import './App.css';
 import Logdout from "./logedout/logedout";
+import Main from "./main/main";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -38,13 +39,12 @@ function App() {
              <Error />
           </Route>
 
-          <Route path="/ss/:page" exact>
+          <Route path="/ss">
             <Logdout />
           </Route>
 
           <Route path="/" exact>
-            { !user && <Redirect to={"/ss/welcome"} />}
-            { user && <p>Welcome to the Home Page</p>}
+            <Main />
           </Route>
 
           <Route path="*">

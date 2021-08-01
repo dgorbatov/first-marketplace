@@ -1,7 +1,7 @@
 {
   "short_name": "FIRST Marketplace",
   "name": "FIRST Marketplace",
-  "start_url": "/welcome",
+  "start_url": "/",
   "icons": [
     {
       "src": "icons/manifest-icon-192.png",

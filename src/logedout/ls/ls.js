@@ -6,6 +6,7 @@ import { useState } from "react";
 
 function LS() {
   const [ emailLog, setEmailLog ] = useState(false);
+  const [formValue, setFormValue] = useState({name: "", email: "", password: ""});
   firebase.app();
 
   function signInWithGoogle() {
@@ -14,6 +15,11 @@ function LS() {
       .signInWithPopup(provider)
        .then((result) => { console.log(result.user); })
       .catch((error) => { });
+  }
+
+  function signInWithEmail(form) {
+    form.preventDefault();
+    console.log(formValue);
   }
 
   return (
@@ -75,11 +81,27 @@ function LS() {
               </Route>
             </Switch>
 
-            <section>
-              <input type="text" id="fname" name="fname" autocomplete="off" value="" aria-labelledby="placeholder-fname" />
-              <label className="placeholder-text" for="fname" id="placeholder-fname">
-                <div className="text">First Name</div>
-              </label>
+            <section className="emailForm">
+              <form onSubmit={signInWithEmail}>
+                <input required value={formValue.email}type="text" placeholder="Email"
+                        onChange={(value) => setFormValue({email: value.target.value,
+                          name: formValue.name,
+                          password: formValue.password})}/>
+                <input required value={formValue.name} type="text" placeholder="Name"
+                        onChange={(value) => setFormValue({email: formValue.email,
+                          name: value.target.value,
+                          password: formValue.password})}/>
+                <input required value={formValue.password}type="text" placeholder="Password"
+                        onChange={(value) => setFormValue({email: formValue.email,
+                          name: formValue.name,
+                          password: value.target.value})}/>
+
+                <article className="ls-button-section">
+                  <button onClick={() => {setEmailLog(false);}}>Back</button>
+                  <button>Next</button>
+                </article>
+
+              </form>
             </section>
           </div>}
         </article>

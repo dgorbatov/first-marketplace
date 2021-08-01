@@ -18,6 +18,10 @@ function Logedout() {
           <Route path="/ss/contact">
             <Contact />
           </Route>
+
+          <Route path="*">
+            <Redirect to={"/error/404"} />
+          </Route>
         </Switch>
       </Router>
     </div>

@@ -13,11 +13,12 @@ function Contact() {
   async function addQuestion(form) {
     form.preventDefault();
     setDisabled(true);
-    console.log(formValue);
     await formSubmissions.add({
-      name: formValue.name,
-      email: formValue.email,
-      question: formValue.question,
+      to: "contact.firstmarketplace@gmail.com",
+      message: {
+        subject: "Question from" + formValue.name,
+        text: "Name: " + formValue.name + "\nEmail: " + formValue.email + "\nQuestion: " + formValue.question
+      },
       time: firebase.firestore.FieldValue.serverTimestamp()
     });
 
