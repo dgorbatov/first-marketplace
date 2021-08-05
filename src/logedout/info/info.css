@@ -1,0 +1,69 @@
+.info {
+  background-image: url("../../assets/ftc-dirt.jpg");
+  background-position: center;
+  background-size: cover;
+  background-position-y: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info {
+  text-align: center;
+  font-size: 1vw;
+}
+
+.info > article {
+  background-color:#C4C4C4;
+  height: 90vh;
+  width: 50vw;
+  border-radius: 4%;
+  display: flex;
+  align-items: space-evenly;
+  justify-content: center;
+}
+
+.info section {
+  display: flex;
+  height: 60vh;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info button {
+  background-color: #63E100;
+  border: 0px;
+  height: 9vh;
+  width: 12vw;
+  font-size: 1.4vw;
+}
+
+.info input, .info select, .info .share-location {
+  height: 4vw;
+  border: 0px;
+  width: 30vw;
+}
+
+
+.info .share-location {
+  background-color: white;
+  font-size: 1.4vw;
+  margin-left: 0vw;
+  width: 30.3vw;
+}
+
+.info select {
+  width: 30.3vw;
+}
+
+.info h1 {
+  font-size: 2.7vw;
+}
+
+.info button:hover {
+  opacity: 0.7;
+}

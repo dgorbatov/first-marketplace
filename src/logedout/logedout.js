@@ -1,29 +1,26 @@
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Welcome from "./welcome/welcome";
 import LS from "./ls/ls";
 import Contact from "./contact/contact";
+import Info from "./info/info";
 
 function Logedout() {
   return (
     <div className="Logedout">
-      <Router>
-        <Switch>
-          <Route path="/ss/welcome" exact>
-            <Welcome />
-          </Route>
-          <Route path="/ss/ls/:type">
-            <LS />
-          </Route>
+      <Route path="/ss/welcome" exact>
+        <Welcome />
+      </Route>
+      <Route path="/ss/ls/:type">
+        <LS />
+      </Route>
 
-          <Route path="/ss/contact">
-            <Contact />
-          </Route>
+      <Route path="/ss/contact" exact>
+        <Contact />
+      </Route>
 
-          <Route path="*">
-            <Redirect to={"/error/404"} />
-          </Route>
-        </Switch>
-      </Router>
+      <Route path="/ss/info" exact>
+        <Info />
+      </Route>
     </div>
   );
 }

@@ -3,8 +3,7 @@ import Logdout from "./logedout/logedout";
 import Main from "./main/main";
 import firebase from "firebase/app";
 import "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Error from "./error/error";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -19,17 +18,16 @@ const firebaseConfig = {
   measurementId: "G-R8M8TSPN42"
 };
 
+
+console.log("IN!");
+
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
-}else {
+} else {
   firebase.app()
 }
 
-const auth = firebase.auth();
-
 function App() {
-  const [ user ] = useAuthState(auth);
-
   return (
 
     <div className="App">
@@ -43,8 +41,12 @@ function App() {
             <Logdout />
           </Route>
 
-          <Route path="/" exact>
+          <Route path="/ms">
             <Main />
+          </Route>
+
+          <Route path="/" exact>
+            <Redirect to="/ms/buy" />
           </Route>
 
           <Route path="*">

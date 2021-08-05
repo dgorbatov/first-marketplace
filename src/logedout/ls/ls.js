@@ -3,23 +3,83 @@ import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-ro
 import firebase from "firebase/app";
 import "firebase/auth";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 function LS() {
-  const [ emailLog, setEmailLog ] = useState(false);
-  const [formValue, setFormValue] = useState({name: "", email: "", password: ""});
-  firebase.app();
+  let history = useHistory();
+  const [emailLog, setEmailLog ] = useState(false);
+  const [incorrectPassword, setIncorrectPassword ] = useState(false);
+  const [formValue, setFormValue] = useState({email: "", password: ""});
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDHRkVZq1gWEQ4kWLsV--PjSdc2udL1kX4",
+    authDomain: "firstmarketplace-d3d3b.firebaseapp.com",
+    databaseURL: "https://firstmarketplace-d3d3b-default-rtdb.firebaseio.com",
+    projectId: "firstmarketplace-d3d3b",
+    storageBucket: "firstmarketplace-d3d3b.appspot.com",
+    messagingSenderId: "506337230664",
+    appId: "1:506337230664:web:7355588d6370176d6a3d7d",
+    measurementId: "G-R8M8TSPN42"
+  };
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  } else {
+    firebase.app();
+  }
 
   function signInWithGoogle() {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth()
       .signInWithPopup(provider)
-       .then((result) => { console.log(result.user); })
-      .catch((error) => { });
+       .then((result) => { history.push("/ss/info"); })
+      .catch((error) => { history.push("/error" + error.code); });
+  }
+
+  function signInWithGithub() {
+    var provider = new firebase.auth.GithubAuthProvider();
+    firebase.auth()
+      .signInWithPopup(provider)
+       .then((result) => { history.push("/ss/info"); })
+      .catch((error) => { history.push("/error" + error.code); });
+  }
+
+  function logInWithEmail() {
+    firebase.auth().signInWithEmailAndPassword(formValue.email, formValue.password)
+    .then((userCredential) => {
+      history.push("/ss/info");
+    })
+    .catch((error) => {
+      console.error(error.code);
+      if (error.code === "auth/wrong-password") {
+        setIncorrectPassword(true);
+        setTimeout(() => {
+          setIncorrectPassword(false);
+        }, 3000);
+      } else {
+        history.push("/error" + error.code);
+      }
+    });
   }
 
   function signInWithEmail(form) {
     form.preventDefault();
-    console.log(formValue);
+    if (window.location.href === "/ss/ls/login") {
+      logInWithEmail();
+    } else {
+      firebase.auth().createUserWithEmailAndPassword(formValue.email, formValue.password)
+      .then((userCredential) => {
+        history.push("/ss/info");
+      })
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          logInWithEmail();
+        } else {
+          history.push("/error" + error.code);
+        }
+      });
+
+    }
   }
 
   return (
@@ -47,10 +107,10 @@ function LS() {
               </section>
 
               <section>
-                <p>Facebook</p>
+                <p>Twitter</p>
               </section>
 
-              <section>
+              <section onClick={() => { signInWithGithub(); }}>
                 <p>Github</p>
               </section>
 
@@ -83,18 +143,15 @@ function LS() {
 
             <section className="emailForm">
               <form onSubmit={signInWithEmail}>
-                <input required value={formValue.email}type="text" placeholder="Email"
+                <input type="email" required value={formValue.email} placeholder="Email"
                         onChange={(value) => setFormValue({email: value.target.value,
-                          name: formValue.name,
                           password: formValue.password})}/>
-                <input required value={formValue.name} type="text" placeholder="Name"
+                <input type="password" required value={formValue.password}
+                       placeholder="Password" minLength="7"
                         onChange={(value) => setFormValue({email: formValue.email,
-                          name: value.target.value,
-                          password: formValue.password})}/>
-                <input required value={formValue.password}type="text" placeholder="Password"
-                        onChange={(value) => setFormValue({email: formValue.email,
-                          name: formValue.name,
                           password: value.target.value})}/>
+
+                {incorrectPassword && <p>Invalid Password</p>}
 
                 <article className="ls-button-section">
                   <button onClick={() => {setEmailLog(false);}}>Back</button>
