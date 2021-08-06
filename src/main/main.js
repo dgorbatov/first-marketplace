@@ -1,14 +1,26 @@
 import "./main.css";
 import { Link } from "react-router-dom"
-import Navbar from "../main/navbar/navbar";
+import Navbar from "./navbar/navbar";
+import Account from "./account/account";
+import { Route } from "react-router-dom";
 
 function Main() {
 
   return (
     <div className="main">
       <Navbar />
-      <p>Hello World!</p>
-      <Link to="/ss/welcome"><p>To Welcome Page</p></Link>
+
+      <Route path="/ms/buy" exact>
+
+      </Route>
+
+      <Route path="/ms/sell" exact>
+
+      </Route>
+
+      <Route path="/ms/account" exact>
+        <Account />
+      </Route>
     </div>
   );
 }

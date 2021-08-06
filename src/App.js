@@ -1,8 +1,7 @@
 import './App.css';
 import Logdout from "./logedout/logedout";
 import Main from "./main/main";
-import firebase from "firebase/app";
-import "firebase/auth";
+import { initializeApp } from "firebase/app";
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Error from "./error/error";
 
@@ -17,15 +16,7 @@ const firebaseConfig = {
   appId: "1:506337230664:web:7355588d6370176d6a3d7d",
   measurementId: "G-R8M8TSPN42"
 };
-
-
-console.log("IN!");
-
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app()
-}
+initializeApp(firebaseConfig);
 
 function App() {
   return (

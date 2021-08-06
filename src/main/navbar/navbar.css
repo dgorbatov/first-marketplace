@@ -7,14 +7,29 @@
   flex-direction: row;
 }
 
+.navbar-main img {
+  height: 2.6vh;
+}
+
+.navbar-main button {
+  background-color: #939393;
+  border: none;
+}
+
+.navbar-main img:hover {
+  opacity: 0.7;
+}
+
 .navbar-main .search {
   margin-left: 6vw;
   margin-top: 0;
   margin-right: 2vw;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-main .search input {
-  height: 2.5vw;
+  height: 3vh;
   border: 0px;
   width: 40vw;
   margin: 3vh;
@@ -23,6 +38,7 @@
 
 .navbar-main .search input::placeholder {
   color: black;
+  font-size: 1vh;
 }
 
 .navbar-main .links-main {
@@ -70,4 +86,8 @@
   text-decoration: none;
   color: black;
   margin-left: 2vw;
+}
+
+.navbar-main .link-main:hover {
+  opacity: 0.7;
 }

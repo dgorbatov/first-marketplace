@@ -1,51 +1,44 @@
 import "./ls.css";
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
-import firebase from "firebase/app";
-import "firebase/auth";
+import { signInWithPopup, getAuth, GoogleAuthProvider, GithubAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { initializeApp } from "firebase/app";
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDHRkVZq1gWEQ4kWLsV--PjSdc2udL1kX4",
+  authDomain: "firstmarketplace-d3d3b.firebaseapp.com",
+  databaseURL: "https://firstmarketplace-d3d3b-default-rtdb.firebaseio.com",
+  projectId: "firstmarketplace-d3d3b",
+  storageBucket: "firstmarketplace-d3d3b.appspot.com",
+  messagingSenderId: "506337230664",
+  appId: "1:506337230664:web:7355588d6370176d6a3d7d",
+  measurementId: "G-R8M8TSPN42"
+};
+initializeApp(firebaseConfig);
+
+const auth = getAuth();
 
 function LS() {
   let history = useHistory();
   const [emailLog, setEmailLog ] = useState(false);
   const [incorrectPassword, setIncorrectPassword ] = useState(false);
   const [formValue, setFormValue] = useState({email: "", password: ""});
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDHRkVZq1gWEQ4kWLsV--PjSdc2udL1kX4",
-    authDomain: "firstmarketplace-d3d3b.firebaseapp.com",
-    databaseURL: "https://firstmarketplace-d3d3b-default-rtdb.firebaseio.com",
-    projectId: "firstmarketplace-d3d3b",
-    storageBucket: "firstmarketplace-d3d3b.appspot.com",
-    messagingSenderId: "506337230664",
-    appId: "1:506337230664:web:7355588d6370176d6a3d7d",
-    measurementId: "G-R8M8TSPN42"
-  };
-
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  } else {
-    firebase.app();
-  }
 
   function signInWithGoogle() {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth()
-      .signInWithPopup(provider)
-       .then((result) => { history.push("/ss/info"); })
-      .catch((error) => { history.push("/error" + error.code); });
+    signInWithPopup(auth, new GoogleAuthProvider())
+     .then(() => { history.push("/ss/info"); })
+     .catch((error) => { history.push("/error" + error.code); });
   }
 
   function signInWithGithub() {
-    var provider = new firebase.auth.GithubAuthProvider();
-    firebase.auth()
-      .signInWithPopup(provider)
-       .then((result) => { history.push("/ss/info"); })
-      .catch((error) => { history.push("/error" + error.code); });
+    signInWithPopup(auth, new GithubAuthProvider())
+     .then((result) => { history.push("/ss/info"); })
+     .catch((error) => { history.push("/error" + error.code); });
   }
 
   function logInWithEmail() {
-    firebase.auth().signInWithEmailAndPassword(formValue.email, formValue.password)
+    signInWithEmailAndPassword(auth, formValue.email, formValue.password)
     .then((userCredential) => {
       history.push("/ss/info");
     })
@@ -67,7 +60,7 @@ function LS() {
     if (window.location.href === "/ss/ls/login") {
       logInWithEmail();
     } else {
-      firebase.auth().createUserWithEmailAndPassword(formValue.email, formValue.password)
+      createUserWithEmailAndPassword(auth, formValue.email, formValue.password)
       .then((userCredential) => {
         history.push("/ss/info");
       })

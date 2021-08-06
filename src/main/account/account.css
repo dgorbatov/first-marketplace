@@ -1,0 +1,21 @@
+.account {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.account button {
+  background-color: #939393;
+  border: none;
+  width: 10vw;
+  height: 5vh;
+}
+
+.account button:hover {
+  opacity: 0.7;
+}
+
+.account h1 {
+  color: white;
+}
