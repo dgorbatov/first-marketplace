@@ -46,7 +46,9 @@ function Navbar() {
       </section>
 
       <section className="search">
-        <input type="text" placeholder="Search....." value={query} onChange={change => { setQuery(change.target.value); } }></input>
+        <input type="text" placeholder="Search....."
+               value={window.location.pathname === "/ms/buy" ? query : ""}
+               onChange={change => { setQuery(change.target.value); } } />
         <button onClick={searchListings} disabled={!(window.location.pathname === "/ms/buy")}><img src={search} alt="search icon"/></button>
       </section>
     </div>

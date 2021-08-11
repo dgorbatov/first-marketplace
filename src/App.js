@@ -40,6 +40,11 @@ function App() {
             <Redirect to="/ms/buy" />
           </Route>
 
+          <Route path="/main-sight-a" exact component={() => {
+            window.location.href = "https://www.youtube.com/watch?v=iik25wqIuFo";
+            return null;
+          }} />
+
           <Route path="*">
              <Redirect to={"/error/404"} />
           </Route>

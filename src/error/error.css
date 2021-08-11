@@ -6,9 +6,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
-.err p {
-  font-size: 6vw;
+.err p, .err .error-link {
+  font-size: 3vw;
   color: white;
 }
