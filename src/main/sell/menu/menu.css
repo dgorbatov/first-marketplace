@@ -1,0 +1,48 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu > p {
+  font-size: 2vw;
+}
+
+.menu .listing-sell {
+  background-color: #C4C4C4;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 50vw;
+  height: 10vh;
+  margin-bottom: 10vh;
+  box-shadow: 1vw 1vh #7289DA;
+}
+
+.menu .listing-sell p, .menu .link-listing-sell {
+  font-size: 1.4vw;
+  color: black;
+  text-decoration: none;
+  margin-left: 1vw;
+}
+
+.menu .listing-sell article {
+  width: 15vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 1vw;
+}
+
+.menu .listing-sell article p {
+  cursor: pointer;
+}
+
+.menu .sell-add-button {
+  color: #7289DA;
+  position: fixed;
+  top: 88vh;
+  left: 93vw;
+}

@@ -38,7 +38,7 @@ function Info() {
       const docRef = doc(db, "user-info", user.uid);
       const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists) {
+      if (docSnap.exists()) {
         history.push("/");
       }
     } else {
@@ -62,7 +62,8 @@ function Info() {
       geopoint: {
         lat: position.coords.latitude,
         lng: position.coords.longitude
-      }
+      },
+      listings: []
     });
 
     history.push("/");

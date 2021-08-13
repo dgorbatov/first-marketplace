@@ -1,6 +1,7 @@
 import "./main.css";
 import Navbar from "./navbar/navbar";
 import Account from "./account/account";
+import Sell from "./sell/sell";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 function Main() {
@@ -13,8 +14,8 @@ function Main() {
           <p>Buy Page</p>
         </Route>
 
-        <Route path="/ms/sell" exact>
-
+        <Route path="/ms/sell/">
+          <Sell />
         </Route>
 
         <Route path="/ms/account" exact>

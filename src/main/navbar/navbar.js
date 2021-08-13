@@ -5,8 +5,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
 const auth = getAuth();
 
-console.log(window.location.pathname);
-
 function Navbar() {
   const [query, setQuery] = useState("");
   const [authState, setAuthState] = useState(false);
@@ -31,8 +29,8 @@ function Navbar() {
           </Route>
         </article>
         <article>
-          <Link className={"link-nav-main"} to="/ms/sell">Sell</Link>
-          <Route path="/ms/sell" exact>
+          <Link className={"link-nav-main"} to="/ms/sell/menu">Sell</Link>
+          <Route path="/ms/sell">
             <hr></hr>
           </Route>
         </article>

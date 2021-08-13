@@ -1,5 +1,7 @@
 body {
   font-family: 'Petrona', serif;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar-track {
