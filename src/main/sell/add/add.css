@@ -165,14 +165,26 @@
   width: 55vw;
   overflow-x: scroll;
   align-self: center;
+  display: flex;
+  flex-direction: row;
 }
+
+.add .upload-pictures img, .add .upload-pictures article {
+  margin-right: 2vw;
+  height: 20vh;
+  border-radius: 35px;
+}
+
+/* .add .upload-pictures img:hover {
+  opacity: 0.8;
+  border: 4px dashed red;
+} */
+
 
 .add .upload-pictures article {
   background: #C4C4C4;
   border: 7px dashed #7289DA;
   box-sizing: border-box;
-  border-radius: 35px;
-  height: 20vh;
   font-size: 1vw;
   width: 15vw;
   display: flex;

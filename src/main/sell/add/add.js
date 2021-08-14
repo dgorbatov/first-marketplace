@@ -5,6 +5,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { useState, useRef } from "react";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { doc, getFirestore, updateDoc, getDoc, Timestamp } from "firebase/firestore";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -20,6 +21,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const auth = getAuth();
 const storage = getStorage();
+const db = getFirestore();
 
 function Add() {
   const [edit, setEdit] = useState(false);
@@ -33,12 +35,15 @@ function Add() {
   const spec = useRef("");
   const delivery = useRef(false);
   const pickup = useRef(false);
+  const [shippingCost, setShippingCost] = useState("");
+  const [shippingTime, setShippingTime] = useState("");
   const [showDelivery, setShowDelivery] = useState(false);
   const [comp, setComp] = useState(null);
   const [condition, setCondition] = useState(null);
   const [brand, setBrand] = useState(null);
   const [error, setError] = useState(null);
   const [pictures, setPictures] = useState([]);
+  const [uid, setUid] = useState(0);
 
   onAuthStateChanged(auth, async user => {
     if (user) {
@@ -46,40 +51,113 @@ function Add() {
         // Edit page
         setEdit(true);
       }
+      setUid(user.uid);
     } else {
       history.push("/ss/ls/login");
     }
   });
 
-  function handleSubmit(form) {
-    form.preventDefault();
-
+  function handleErrors() {
     if (comp == null || brand == null || condition == null) {
       setError("Please select a league, condition, and brand");
-      return;
+      return -1;
     }
 
-    console.log(comp);
-    console.log(brand);
-    console.log(condition);
+    if (pictures.length > 5) {
+      setError("No More Than 5 Pictures allowed");
+      return -1;
+    }
 
     if (!delivery.current.checked && !pickup.current.checked) {
       setError("Please check ether local pickup or shipping");
-      return;
+      return -1;
     }
 
     setError("");
+    return 0;
   }
 
-  function uploadPic(file) {
-    const storageRef = ref(storage, URL.createObjectURL(file.target.files[0]));
+  function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() *
+      charactersLength));
+    }
+    return result;
+  }
 
-    // 'file' comes from the Blob or File API
-    uploadBytes(storageRef, file.target.files[0]).then((snapshot) => {
-      console.log('Uploaded a blob or file!');
-      setPictures(pictures.push(URL.createObjectURL(file.target.files[0])));
-      console.log(pictures);
+  async function editDoc() {
+    console.error("NOT IMPLEMENTED YET");
+  }
+
+  async function handleSubmit(form) {
+    form.preventDefault();
+
+    if (edit) {
+      editDoc();
+      return;
+    }
+
+    if (handleErrors() !== 0)
+      return;
+
+    let hash_doc = makeid(25);
+    const docSnap = await getDoc(doc(db, "listings", uid));
+    const keys = Object.keys(docSnap.data());
+
+    while (keys.includes(hash_doc)) {
+      hash_doc = makeid(25);
+    }
+
+    let picture_urls = await uploadPics(hash_doc);
+    console.log(picture_urls);
+    setPictures([]);
+
+    await updateDoc(doc(db, "listings", uid), {
+      [ hash_doc ]: {
+        basicinfo: {
+          name: name.current.value,
+          city: city.current.value,
+          price: price.current.value,
+          email: email.current.value,
+          description: description.current.value,
+          spec: spec.current.value
+        },
+        shipping : {
+          delivery: delivery.current.checked,
+          pickup: pickup.current.checked,
+          shippingCost: shippingCost,
+          shippingTime: shippingTime
+        },
+        tags : {
+          comp: comp,
+          condition: condition,
+          brand: brand
+        },
+        pictures: picture_urls,
+        time: Timestamp.now()
+      }
     });
+
+    history.push("/ms/sell/menu");
+  }
+
+  async function uploadPics(docName) {
+    let urls = [];
+
+    pictures.map(file => {
+      urls.push(uid + "/" + docName + "/" + file.name);
+      return null;
+    })
+
+    pictures.map(async file => {
+      await uploadBytes(ref(storage, uid + "/" + docName + "/" + file.name), file);
+      return null;
+    })
+
+    return urls;
   }
 
   return (
@@ -102,13 +180,18 @@ function Add() {
           <section className="upload-pictures">
             <article>
               <label className="custom-file-upload">
-                <input type="file" multiple onChange={uploadPic}/>
-                Add A Picture
+                <input type="file" accept="image/*" multiple onChange={(file) => { setPictures(Object.values(file.target.files)); } }/>
+                Add Pictures
             </label>
             </article>
 
-            {pictures.map(file => (
-              <img src={file} alt="upload by user" key={file}/>
+            {pictures.map((file, index) => (
+              <img src={URL.createObjectURL(file)} alt="upload by user" key={index}
+              onClick={() => {
+                let new_pics = pictures;
+                new_pics.splice(index, 1)
+                setPictures(new_pics)
+              }}/>
             ))}
           </section>
 
@@ -126,10 +209,12 @@ function Add() {
             </section>
 
             { showDelivery &&
-              <input type="number" required placeholder="Shipping Cost*"/>
+              <input type="number" required placeholder="Shipping Cost*" value={shippingCost}
+                onChange={(v) => setShippingCost(v.target.value) }/>
             }
             { showDelivery &&
-              <input type="text" required placeholder="Shipping Speed*"/>
+              <input type="text" required placeholder="Shipping Speed*"value={shippingTime}
+              onChange={(val) => setShippingTime(val.target.value) }/>
             }
           </section>
 

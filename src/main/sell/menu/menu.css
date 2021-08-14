@@ -14,7 +14,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 50vw;
+  width: 55vw;
   height: 10vh;
   margin-bottom: 10vh;
   box-shadow: 1vw 1vh #7289DA;
@@ -28,7 +28,7 @@
 }
 
 .menu .listing-sell article {
-  width: 15vw;
+  width: 17vw;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -45,4 +45,10 @@
   position: fixed;
   top: 88vh;
   left: 93vw;
+}
+
+.menu .sell-menu-err {
+  color: rgb(190, 0, 0);
+  margin: 0;
+  margin-bottom: 1vh;
 }
