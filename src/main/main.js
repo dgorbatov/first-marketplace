@@ -18,11 +18,7 @@ function Main() {
       <Navbar searchCallback={setSearchCallback}/>
       <Switch>
         <Route path="/ms/buy" exact>
-<<<<<<< HEAD
-          <p>Buy Page!</p>
-=======
           <Buy query={search}/>
->>>>>>> 1d20c17f5b238192ae9b583606354fee65d61b4a
         </Route>
 
         <Route path="/ms/sell/">
