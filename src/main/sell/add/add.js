@@ -114,7 +114,6 @@ function Add() {
     }
 
     let picture_urls = await uploadPics(hash_doc);
-    console.log(picture_urls);
     setPictures([]);
 
     await updateDoc(doc(db, "listings", uid), {

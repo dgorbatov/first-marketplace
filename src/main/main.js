@@ -2,16 +2,23 @@ import "./main.css";
 import Navbar from "./navbar/navbar";
 import Account from "./account/account";
 import Sell from "./sell/sell";
+import Buy from "./buy/buy";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { useState } from "react";
 
 function Main() {
+  const [search, setSearch] = useState(null);
+
+  function setSearchCallback(query) {
+    setSearch(query);
+  }
 
   return (
     <div className="main">
-      <Navbar />
+      <Navbar searchCallback={setSearchCallback}/>
       <Switch>
         <Route path="/ms/buy" exact>
-          <p>Buy Page</p>
+          <Buy query={search}/>
         </Route>
 
         <Route path="/ms/sell/">
