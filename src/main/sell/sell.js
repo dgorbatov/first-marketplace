@@ -20,7 +20,7 @@ initializeApp(firebaseConfig);
 const auth = getAuth();
 
 function Sell() {
-  let history = useHistory();
+  const history = useHistory();
 
   onAuthStateChanged(auth, async user => {
     if (!user) {

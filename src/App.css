@@ -2,6 +2,7 @@ body {
   font-family: 'Petrona', serif;
   max-width: 100%;
   overflow-x: hidden;
+  /* text-transform: lowercase; */
 }
 
 ::-webkit-scrollbar-track {

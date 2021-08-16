@@ -5,17 +5,13 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
 const auth = getAuth();
 
-function Navbar() {
+function Navbar(props) {
   const [query, setQuery] = useState("");
   const [authState, setAuthState] = useState(false);
 
   onAuthStateChanged(auth, () => {
     setAuthState(true);
   });
-
-  function searchListings() {
-    setQuery("");
-  }
 
   return (
     <div className="navbar-main">
@@ -47,7 +43,7 @@ function Navbar() {
         <input type="text" placeholder="Search....."
                value={window.location.pathname === "/ms/buy" ? query : ""}
                onChange={change => { setQuery(change.target.value); } } />
-        <button onClick={searchListings} disabled={!(window.location.pathname === "/ms/buy")}><img src={search} alt="search icon"/></button>
+        <button onClick={() => props.searchCallback(query) } disabled={!(window.location.pathname === "/ms/buy")}><img src={search} alt="search icon"/></button>
       </section>
     </div>
   );
