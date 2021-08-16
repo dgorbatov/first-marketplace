@@ -3,6 +3,7 @@ import Welcome from "./welcome/welcome";
 import LS from "./ls/ls";
 import Contact from "./contact/contact";
 import Info from "./info/info";
+import Privacy from "./privacy/privacy";
 
 function Logedout() {
   return (
@@ -24,7 +25,7 @@ function Logedout() {
         </Route>
 
         <Route path="/ss/privacypolicy" exact>
-          <p>Hello My Name is Jeff</p>
+          <Privacy />
         </Route>
 
         {window.location.href.includes("ss") && <Route path="*" exact>
