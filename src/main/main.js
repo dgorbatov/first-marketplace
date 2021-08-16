@@ -11,7 +11,7 @@ function Main() {
       <Navbar />
       <Switch>
         <Route path="/ms/buy" exact>
-          <p>Buy Page</p>
+          <p>Buy Page!</p>
         </Route>
 
         <Route path="/ms/sell/">
@@ -20,6 +20,7 @@ function Main() {
 
         <Route path="/ms/account" exact>
           <Account />
+
         </Route>
 
         <Route path="*" exact>

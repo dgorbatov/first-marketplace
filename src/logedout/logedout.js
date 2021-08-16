@@ -23,6 +23,10 @@ function Logedout() {
           <Info />
         </Route>
 
+        <Route path="/ss/privacypolicy" exact>
+          <p>Hello My Name is Jeff</p>
+        </Route>
+
         {window.location.href.includes("ss") && <Route path="*" exact>
           <Redirect to="/error/404" />
         </Route>}
