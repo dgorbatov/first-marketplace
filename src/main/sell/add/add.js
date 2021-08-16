@@ -6,6 +6,7 @@ import { initializeApp } from "firebase/app";
 import { useState, useRef } from "react";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { doc, getFirestore, updateDoc, getDoc, Timestamp } from "firebase/firestore";
+import Check from "../../../assets/check.png"
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -44,6 +45,7 @@ function Add() {
   const [error, setError] = useState(null);
   const [pictures, setPictures] = useState([]);
   const [uid, setUid] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
 
   onAuthStateChanged(auth, async user => {
     if (user) {
@@ -141,7 +143,8 @@ function Add() {
       }
     });
 
-    history.push("/ms/sell/menu");
+    setSubmitted(true);
+    setTimeout(() => history.push("/ms/sell/menu"), 1000);
   }
 
   async function uploadPics(docName) {
@@ -162,139 +165,147 @@ function Add() {
 
   return (
     <div className="add">
-      {edit ? <p>Edit Listing</p> : <p>Create A New Listing</p>}
-      <article>
-        <form onSubmit={handleSubmit}>
-          <section className="add-listing-centered">
-            <input type="text" required placeholder="Name*" ref={name}/>
-            <input type="text" required placeholder="City*" ref={city}/>
-            <input type="number" required placeholder="Price(USD)*" ref={price}/>
-            <input type="email" required placeholder="Email Address*" ref={email}/>
-          </section>
-
-          <section className="add-listing-centered">
-            <textarea minLength={10} maxLength={1000} required ref={description} placeholder="Description/Extra Details*" />
-            <textarea maxLength={1000} ref={spec} placeholder="Specifications" />
-          </section>
-
-          <section className="upload-pictures">
-            <article>
-              <label className="custom-file-upload">
-                <input type="file" accept="image/*" multiple onChange={(file) => { setPictures(Object.values(file.target.files)); } }/>
-                Add Pictures
-            </label>
-            </article>
-
-            {pictures.map((file, index) => (
-              <img src={URL.createObjectURL(file)} alt="upload by user" key={index}
-              onClick={() => {
-                let new_pics = pictures;
-                new_pics.splice(index, 1)
-                setPictures(new_pics)
-              }}/>
-            ))}
-          </section>
-
-          <section className="add-listing-left">
-            <p>Delivery options*</p>
-
-            <section>
-              <input type="checkbox" ref={pickup}/>
-              <label>Local Pickup</label>
+      { !submitted && (edit ? <p>Edit Listing</p> : <p>Create A New Listing</p>)}
+      { submitted ?
+        <div className="add-submitted">
+          <img src={Check} alt="Check Mark" />
+          <p>Thank You!</p>
+          <p>Your Product has been Posted</p>
+        </div>
+      :
+        <article>
+          <form onSubmit={handleSubmit}>
+            <section className="add-listing-centered">
+              <input type="text" required placeholder="Name*" ref={name}/>
+              <input type="text" required placeholder="City*" ref={city}/>
+              <input type="number" required placeholder="Price(USD)*" ref={price}/>
+              <input type="email" required placeholder="Email Address*" ref={email}/>
             </section>
 
-            <section>
-              <input type="checkbox" ref={delivery} onChange={() => { setShowDelivery(delivery.current.checked) }} />
-              <label>Shipping</label>
+            <section className="add-listing-centered">
+              <textarea minLength={10} maxLength={1000} required ref={description} placeholder="Description/Extra Details*" />
+              <textarea maxLength={1000} ref={spec} placeholder="Specifications" />
             </section>
 
-            { showDelivery &&
-              <input type="number" required placeholder="Shipping Cost*" value={shippingCost}
-                onChange={(v) => setShippingCost(v.target.value) }/>
-            }
-            { showDelivery &&
-              <input type="text" required placeholder="Shipping Speed*"value={shippingTime}
-              onChange={(val) => setShippingTime(val.target.value) }/>
-            }
-          </section>
+            <section className="upload-pictures">
+              <article>
+                <label className="custom-file-upload">
+                  <input type="file" accept="image/*" multiple onChange={(file) => { setPictures(Object.values(file.target.files)); } }/>
+                  Add Pictures
+              </label>
+              </article>
 
-          <section className="add-listing-left">
-            <p>Tags</p>
+              {pictures.map((file, index) => (
+                <img src={URL.createObjectURL(file)} alt="upload by user" key={index}
+                onClick={() => {
+                  let new_pics = pictures;
+                  new_pics.splice(index, 1)
+                  setPictures(new_pics)
+                }}/>
+              ))}
+            </section>
 
-            <section className="tags">
+            <section className="add-listing-left">
+              <p>Delivery options*</p>
+
               <section>
-                <p>League</p>
-
-                <article>
-                  <input type="radio" name="comp"
-                    onChange={() => setComp("FLL") }/>
-                  <label>FLL</label>
-                </article>
-
-                <article>
-                  <input type="radio" name="comp"
-                    onChange={() => setComp("FTC") }/>
-                  <label>FTC</label>
-                </article>
-
-                <article>
-                  <input type="radio" name="comp"
-                    onChange={() => setComp("FRC")}/>
-                  <label>FRC</label>
-                </article>
+                <input type="checkbox" ref={pickup}/>
+                <label>Local Pickup</label>
               </section>
 
               <section>
-                <p>Condition</p>
-
-                <article>
-                  <input type="radio" name="condition"
-                    onChange={() => setCondition("New") }/>
-                  <label>New</label>
-                </article>
-
-                <article>
-                  <input type="radio" name="condition" value="Used"
-                    onChange={() => setCondition("Used") }/>
-                  <label>Used</label>
-                </article>
-
-                <article>
-                  <input type="radio" name="condition" value="Sort of new"
-                    onChange={() => setCondition("Sort of new")}/>
-                  <label>Sort Of Used</label>
-                </article>
+                <input type="checkbox" ref={delivery} onChange={() => { setShowDelivery(delivery.current.checked) }} />
+                <label>Shipping</label>
               </section>
 
-              <section>
-                <p>Brand</p>
+              { showDelivery &&
+                <input type="number" required placeholder="Shipping Cost*" value={shippingCost}
+                  onChange={(v) => setShippingCost(v.target.value) }/>
+              }
+              { showDelivery &&
+                <input type="text" required placeholder="Shipping Speed*"value={shippingTime}
+                onChange={(val) => setShippingTime(val.target.value) }/>
+              }
+            </section>
 
-                <article>
-                  <input type="radio" name="brand"
-                    onChange={() => setBrand("REV") }/>
-                  <label>REV</label>
-                </article>
+            <section className="add-listing-left">
+              <p>Tags</p>
 
-                <article>
-                  <input type="radio" name="brand"
-                    onChange={() => setBrand("Andymark") }/>
-                  <label>Andymark</label>
-                </article>
+              <section className="tags">
+                <section>
+                  <p>League</p>
 
-                <article>
-                  <input type="radio" name="brand"
-                    onChange={() => setBrand("Other")}/>
-                  <label>Other</label>
-                </article>
+                  <article>
+                    <input type="radio" name="comp"
+                      onChange={() => setComp("FLL") }/>
+                    <label>FLL</label>
+                  </article>
+
+                  <article>
+                    <input type="radio" name="comp"
+                      onChange={() => setComp("FTC") }/>
+                    <label>FTC</label>
+                  </article>
+
+                  <article>
+                    <input type="radio" name="comp"
+                      onChange={() => setComp("FRC")}/>
+                    <label>FRC</label>
+                  </article>
+                </section>
+
+                <section>
+                  <p>Condition</p>
+
+                  <article>
+                    <input type="radio" name="condition"
+                      onChange={() => setCondition("New") }/>
+                    <label>New</label>
+                  </article>
+
+                  <article>
+                    <input type="radio" name="condition" value="Used"
+                      onChange={() => setCondition("Used") }/>
+                    <label>Used</label>
+                  </article>
+
+                  <article>
+                    <input type="radio" name="condition" value="Sort of new"
+                      onChange={() => setCondition("Sort of new")}/>
+                    <label>Sort Of Used</label>
+                  </article>
+                </section>
+
+                <section>
+                  <p>Brand</p>
+
+                  <article>
+                    <input type="radio" name="brand"
+                      onChange={() => setBrand("REV") }/>
+                    <label>REV</label>
+                  </article>
+
+                  <article>
+                    <input type="radio" name="brand"
+                      onChange={() => setBrand("Andymark") }/>
+                    <label>Andymark</label>
+                  </article>
+
+                  <article>
+                    <input type="radio" name="brand"
+                      onChange={() => setBrand("Other")}/>
+                    <label>Other</label>
+                  </article>
+                </section>
               </section>
             </section>
-          </section>
 
-          {edit ? <button>Publish Changes</button> : <button>Post</button>}
-          <p className="add-error">{error}</p>
-          <p>* = required</p>
-        </form>
-      </article>
+            {edit ? <button>Publish Changes</button> : <button>Post</button>}
+            <p className="add-error">{error}</p>
+            <p>* = required</p>
+          </form>
+        </article>
+      }
     </div>
   );
 }

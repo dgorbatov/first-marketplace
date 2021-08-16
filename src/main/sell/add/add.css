@@ -1,7 +1,17 @@
-.add {
+.add, .add .add-submitted {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.add .add-submitted {
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+}
+
+.add .add-submitted p {
+  font-size: 4vw;
 }
 
 .add > p {
