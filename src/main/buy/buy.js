@@ -45,7 +45,6 @@ function Buy(props) {
       }
       new_listings = await modifyListings(new_new_listings);
 
-      console.log(new_listings);
       setListings(new_listings);
     }
   }, []);
@@ -54,7 +53,6 @@ function Buy(props) {
     let res = []
 
     for (let list of listings_modify) {
-      console.log("URL: " + list[1].pictures[0]);
       let url = null;
 
       if (list[1].pictures[0] !== undefined) {
@@ -71,8 +69,6 @@ function Buy(props) {
           shipping += "/"
         shipping += "Local"
       }
-
-      console.log("NEW URL: " + url);
 
       res.push({
         key: list[0],
