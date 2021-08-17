@@ -67,3 +67,23 @@
 .info button:hover {
   opacity: 0.7;
 }
+
+.info .privacy-policy-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+  height: 8vh;
+  width: 30vw;
+}
+
+.info input[type="checkbox"] {
+  -ms-transform: scale(0.5); /* IE */
+  -moz-transform: scale(0.5); /* FF */
+  -webkit-transform: scale(0.5); /* Safari and Chrome */
+  -o-transform: scale(0.5); /* Opera */
+  margin: 0;
+  padding: 0;
+  width: 5vw;
+}

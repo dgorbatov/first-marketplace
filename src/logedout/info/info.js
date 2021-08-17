@@ -1,6 +1,6 @@
 import "./info.css";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { doc, getDoc, setDoc, getFirestore  } from "firebase/firestore";
 import { useState } from "react";
 import { initializeApp } from "firebase/app";
@@ -100,6 +100,11 @@ function Info() {
                                                                            setPosition(position); },
                                                            () => { setLocationAccess("rejected"); });
                 }}>Share Location</button>
+
+              <section className="privacy-policy-info">
+                <input type="checkbox" required/>
+                <p>I agree to the <Link to="/ss/privacypolicy">Privacy Policy</Link></p>
+              </section>
             </section>
             {(locationAccess === "rejected") && <p>Please Allow Access To Your Location</p>}
           <button disabled={!(locationAccess === "given")}>Create Team</button>

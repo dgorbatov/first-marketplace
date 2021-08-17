@@ -198,8 +198,8 @@ function Add() {
                 <img src={URL.createObjectURL(file)} alt="upload by user" key={index}
                 onClick={() => {
                   let new_pics = pictures;
-                  new_pics.splice(index, 1)
-                  setPictures(new_pics)
+                  new_pics.splice(index, 1);
+                  setPictures(new_pics);
                 }}/>
               ))}
             </section>
