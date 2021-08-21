@@ -9,8 +9,11 @@ function Navbar(props) {
   const [query, setQuery] = useState("");
   const [authState, setAuthState] = useState(false);
 
-  onAuthStateChanged(auth, () => {
-    setAuthState(true);
+  onAuthStateChanged(auth, user => {
+    if (user)
+      setAuthState(true);
+    else
+      setAuthState(false);
   });
 
   return (

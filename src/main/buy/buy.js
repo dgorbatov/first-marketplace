@@ -92,12 +92,12 @@ function Buy(props) {
       <section>
         {
           listings.map(listing => (
-            <Link className="buy-link" key={listing.key} to="/ss/welcome">
+            <Link className="buy-link" key={listing.key} to={"/ms/item/" + listing.key}>
               <article className="listing-buy">
                 <article>
-                  <section>
+                  <section className="buy-top">
                     <h1>{listing.name}</h1>
-                    <div className="buy-tag" style={{ "backgroundColor": "#1CE79E" }}><p>{listing.condition}</p></div>
+                    <div className="buy-tag condition-buy" style={{ "backgroundColor": "#1CE79E" }}><p>{listing.condition}</p></div>
                     <div className="buy-tag" style={{ "backgroundColor": "#F3819C" }}><p>{listing.comp}</p></div>
                     {
                       listing.brand !== "Other" &&

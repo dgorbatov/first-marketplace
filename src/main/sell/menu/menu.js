@@ -27,20 +27,23 @@ function Main() {
   const history = useHistory();
   const [listings, setListings] = useState([]);
   const [error, setError] = useState("");
-  let uid;
+  const [uid, setUid] = useState(undefined);
 
   onAuthStateChanged(auth, async user => {
     if (!user) {
       history.push("/ss/ls/login");
     } else if (listings.length === 0) {
-      uid = user.uid;
+      setUid(user.uid);
       updateListings();
     } else {
-      uid = user.uid;
+      setUid(user.uid);
     }
   });
 
   async function updateListings() {
+    if (uid === undefined)
+      return;
+
     const docSnap = await getDoc(doc(db, "listings", uid));
     let listings_new = [];
 
@@ -50,8 +53,8 @@ function Main() {
     }
     setListings(listings_new);
 
-    if (listings_new.length > 2) {
-      setError("Max 5 listings, to add please remove a listing or set it to sold")
+    if (listings_new.length > 4) {
+      setError("Max 4 listings, to add please remove a listing or set it to sold")
     } else {
       setError("");
     }
@@ -88,7 +91,7 @@ function Main() {
           <section className="listing-sell" key={listing[0]}>
             <p>{listing[1].basicinfo.name} - {getDate(listing[1].time.toDate())}</p>
             <article>
-              <Link to="" className="link-listing-sell">View</Link>
+              <Link to={"/ms/item/" + uid + "/" + listing[0]} className="link-listing-sell">View</Link>
               {/* <Link to={"/ms/sell/sell-item/bob"} className="link-listing-sell">Edit</Link> */}
               <p onClick={() => {updateListing(listing[0], "r")}}>Remove</p>
               <p onClick={() => {updateListing(listing[0], "s")}}>Sold</p>

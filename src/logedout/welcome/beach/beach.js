@@ -16,7 +16,7 @@ function Lake() {
 
       <article>
         <section>
-          <Link>Donate</Link>
+          <Link to="/donate">Donate</Link>
         </section>
 
         <section>

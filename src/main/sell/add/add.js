@@ -175,7 +175,7 @@ function Add() {
         <article>
           <form onSubmit={handleSubmit}>
             <section className="add-listing-centered">
-              <input type="text" required placeholder="Name*" ref={name}/>
+              <input type="text" required placeholder="Product Name*" ref={name}/>
               <input type="text" required placeholder="City*" ref={city}/>
               <input type="number" required placeholder="Price(USD)*" ref={price}/>
               <input type="email" required placeholder="Email Address*" ref={email}/>

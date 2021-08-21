@@ -3,6 +3,7 @@ import Navbar from "./navbar/navbar";
 import Account from "./account/account";
 import Sell from "./sell/sell";
 import Buy from "./buy/buy";
+import Item from "./item/item";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { useState } from "react";
 
@@ -19,6 +20,10 @@ function Main() {
       <Switch>
         <Route path="/ms/buy" exact>
           <Buy query={search}/>
+        </Route>
+
+        <Route path="/ms/item/:uid/:id" exact>
+          <Item />
         </Route>
 
         <Route path="/ms/sell/">
