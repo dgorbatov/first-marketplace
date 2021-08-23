@@ -7,6 +7,11 @@
   justify-content: center;
 }
 
+.item a {
+  color: black;
+  font-size: 2vw;
+}
+
 .item {
   background-color: #939393;
   width: 70vw;

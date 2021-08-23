@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { useState, useRef } from "react";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { doc, getFirestore, updateDoc, getDoc, Timestamp } from "firebase/firestore";
-import Check from "../../../assets/check.png"
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getFirestore, updateDoc, Timestamp, addDoc, collection, doc, arrayUnion } from "firebase/firestore";
+import Check from "../../../assets/check.png";
+import { Icon } from '@iconify/react';
+
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -29,6 +31,7 @@ function Add() {
   const { id } = useParams();
   const history = useHistory();
   const name = useRef("");
+  const url = useRef("");
   const city = useRef("");
   const price = useRef(0.00);
   const email = useRef("");
@@ -46,6 +49,8 @@ function Add() {
   const [pictures, setPictures] = useState([]);
   const [uid, setUid] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   onAuthStateChanged(auth, async user => {
     if (user) {
@@ -79,23 +84,13 @@ function Add() {
     return 0;
   }
 
-  function makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() *
-      charactersLength));
-    }
-    return result;
-  }
-
   async function editDoc() {
     console.error("NOT IMPLEMENTED YET");
   }
 
   async function handleSubmit(form) {
     form.preventDefault();
+    setLoading(true);
 
     if (edit) {
       editDoc();
@@ -105,73 +100,92 @@ function Add() {
     if (handleErrors() !== 0)
       return;
 
-    let hash_doc = makeid(25);
-    const docSnap = await getDoc(doc(db, "listings", uid));
-    const keys = Object.keys(docSnap.data());
-
-    while (keys.includes(hash_doc)) {
-      hash_doc = makeid(25);
-    }
-
-    let picture_urls = await uploadPics(hash_doc);
-    setPictures([]);
-
-    await updateDoc(doc(db, "listings", uid), {
-      [ hash_doc ]: {
-        basicinfo: {
-          name: name.current.value,
-          city: city.current.value,
-          price: price.current.value,
-          email: email.current.value,
-          description: description.current.value,
-          spec: spec.current.value
-        },
-        shipping : {
-          delivery: delivery.current.checked,
-          pickup: pickup.current.checked,
-          shippingCost: shippingCost,
-          shippingTime: shippingTime
-        },
-        tags : {
-          comp: comp,
-          condition: condition,
-          brand: brand
-        },
-        pictures: picture_urls,
-        time: Timestamp.now()
-      }
+    const list_doc = await addDoc(collection(db, "listings"), {
+      basicinfo: {
+        name: name.current.value,
+        city: city.current.value,
+        price: price.current.value,
+        email: email.current.value,
+        description: description.current.value,
+        spec: spec.current.value
+      },
+      shipping : {
+        delivery: delivery.current.checked,
+        pickup: pickup.current.checked,
+        shippingCost: shippingCost,
+        shippingTime: shippingTime
+      },
+      tags : {
+        comp: comp,
+        condition: condition,
+        brand: brand
+      },
+      "create-time": Timestamp.now(),
+      status: "a",
+      uid: uid,
+      url: url.current.value
     });
 
+    let picture_urls = await uploadPics(list_doc.id);
+    // let picture_urls = await uploadPics("TESTING_SUIT");
+    // console.log(picture_urls);
+    setPictures([]);
+
+    // for (let i of picture_urls[1]) {
+    //   console.log(i)
+    // }
+
+    await updateDoc(list_doc, {
+      pictures: picture_urls[0],
+      "picture_urls": picture_urls[1]
+    });
+
+    await updateDoc(doc(db, "user-info", uid), {
+      listings: arrayUnion(list_doc.id)
+    });
+
+    setLoading(false);
     setSubmitted(true);
     setTimeout(() => history.push("/ms/sell/menu"), 1000);
   }
 
   async function uploadPics(docName) {
     let urls = [];
+    let web_urls = [];
 
     pictures.map(file => {
       urls.push(uid + "/" + docName + "/" + file.name);
       return null;
     })
 
-    pictures.map(async file => {
+    for (let file of pictures) {
       await uploadBytes(ref(storage, uid + "/" + docName + "/" + file.name), file);
-      return null;
-    })
+      const url = await getDownloadURL(ref(storage, uid + "/" + docName + "/" + file.name));
+      web_urls.push(url);
+    }
 
-    return urls;
+    // await pictures.map(async file => {
+    //   await uploadBytes(ref(storage, uid + "/" + docName + "/" + file.name), file);
+    //   const url = await getDownloadURL(ref(storage, uid + "/" + docName + "/" + file.name));
+    //   web_urls.push(url);
+    //   return null;
+    // })
+
+    return [urls, web_urls];
   }
 
   return (
     <div className="add">
-      { !submitted && (edit ? <p>Edit Listing</p> : <p>Create A New Listing</p>)}
-      { submitted ?
+      {loading && <Icon icon="eos-icons:bubble-loading" height="30vh" width="30vw" className="loading"/>}
+      { !submitted && !loading && (edit ? <p>Edit Listing</p> : <p>Create A New Listing</p>)}
+      { submitted && !loading &&
         <div className="add-submitted">
           <img src={Check} alt="Check Mark" />
           <p>Thank You!</p>
           <p>Your Product has been Posted</p>
         </div>
-      :
+      }
+      { !loading &&
         <article>
           <form onSubmit={handleSubmit}>
             <section className="add-listing-centered">
@@ -179,6 +193,7 @@ function Add() {
               <input type="text" required placeholder="City*" ref={city}/>
               <input type="number" required placeholder="Price(USD)*" ref={price}/>
               <input type="email" required placeholder="Email Address*" ref={email}/>
+              <input type="url" placeholder="Original URL of Product" ref={url}/>
             </section>
 
             <section className="add-listing-centered">
@@ -228,7 +243,7 @@ function Add() {
             </section>
 
             <section className="add-listing-left">
-              <p>Tags</p>
+              <p>Tags*</p>
 
               <section className="tags">
                 <section>
@@ -292,11 +307,32 @@ function Add() {
 
                   <article>
                     <input type="radio" name="brand"
+                      onChange={() => setBrand("Gobuilda")}/>
+                    <label>Gobuilda</label>
+                  </article>
+                </section>
+
+                <section className="brands-continue">
+                  <p>{"<--"}</p>
+                  <article>
+                    <input type="radio" name="brand"
+                      onChange={() => setBrand("PITSCO ") }/>
+                    <label>PITSCO </label>
+                  </article>
+
+                  <article>
+                    <input type="radio" name="brand"
+                      onChange={() => setBrand("Tetrix") }/>
+                    <label>Tetrix</label>
+                  </article>
+
+                  <article>
+                    <input type="radio" name="brand"
                       onChange={() => setBrand("Other")}/>
                     <label>Other</label>
                   </article>
                 </section>
-              </section>
+                </section>
             </section>
 
             {edit ? <button>Publish Changes</button> : <button>Post</button>}

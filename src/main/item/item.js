@@ -25,7 +25,7 @@ const auth = getAuth();
 
 function Item() {
   const history = useHistory();
-  const { uid, id } = useParams();
+  const { id } = useParams();
   const [gotListing, setGotListing] = useState(0);
   const [pictureUrl, setPictureUrl] = useState("");
   const [idx, setIdx] = useState(0);
@@ -34,29 +34,29 @@ function Item() {
   useEffect(() => {
 
     async function fetchData() {
-      const docSnap = await getDoc(doc(db, "listings", uid));
-
-      if (!(docSnap.exists()) || docSnap.data()[id] === undefined)
+      const docSnap = await getDoc(doc(db, "listings", id));
+      console.log(docSnap.data());
+      if (!(docSnap.exists()))
         history.push("/error/404");
 
       else {
-        if (typeof docSnap.data()[id] === "string") {
-          if (docSnap.data()[id] === "r")
+        if (docSnap.data().status !== "a") {
+          if (docSnap.data().status === "r")
             setGotListing("This Listing Was Removed");
           else
             setGotListing("This Listing Was Sold");
         }
 
         let url = null;
-        if (docSnap.data()[id].pictures[0] !== undefined)
-          url = await getDownloadURL(ref(storage, docSnap.data()[id].pictures[0]));
+        if (docSnap.data().pictures[0] !== undefined)
+          url = await getDownloadURL(ref(storage, docSnap.data().pictures[0]));
 
         setPictureUrl(url)
-        setGotListing(docSnap.data()[id]);
+        setGotListing(docSnap.data());
       }
     }
     fetchData();
-  }, [history, uid, id]);
+  }, [history, id]);
 
   async function goForward() {
     if (pictureUrl === null)
@@ -98,7 +98,7 @@ function Item() {
   return (
     <div className="outer-item">
       <div className="item">
-        { typeof gotListing === "object" &&
+        { gotListing.status === "a" &&
           <section>
             <h1 className="item-wrap" >{gotListing.basicinfo.name}</h1>
             <p className="item-wrap" ><strong>Location:</strong> {gotListing.basicinfo.city}</p>
@@ -111,12 +111,13 @@ function Item() {
               ("Available, Shipping Time: " + gotListing.shipping.shippingTime) :
               "Not Available"}</p>
             <p><strong>Local Pickup:</strong> {gotListing.shipping.pickup ? "Available" : "Not Available"}</p>
+            {gotListing.url !== "" && <a href={gotListing.url} className="item-link"><strong>Original Product:</strong></a>}
             <p className="item-wrap"><strong>Description:</strong> {gotListing.basicinfo.description}</p>
             {gotListing.basicinfo.spec !== "" && <p className="item-wrap" ><strong>Spec:</strong> {gotListing.basicinfo.spec}</p>}
           </section>
         }
 
-        { typeof gotListing === "object" &&
+        { gotListing.status === "a" &&
           <section className="item-right">
             <article>
               <button onClick={goBack}><Icon className="item-icon-l" icon="fluent:arrow-next-20-filled" rotate={2} height="7vh"/></button>
@@ -134,7 +135,7 @@ function Item() {
         }
 
         {
-          typeof gotListing === "string" &&
+          gotListing.status !== "a" && typeof gotListing.status === "string" &&
           <p className="item-error">{gotListing}</p>
         }
       </div>

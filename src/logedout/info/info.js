@@ -66,10 +66,6 @@ function Info() {
       listings: []
     });
 
-    await setDoc(doc(db, "listings", user.uid), {
-    });
-
-
     history.push("/");
   }
 

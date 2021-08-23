@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { useState } from "react";
-import { getDoc, getFirestore, doc, updateDoc } from "firebase/firestore";
+import { getDoc, getFirestore, doc, updateDoc, arrayRemove } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -44,13 +44,18 @@ function Main() {
     if (uid === undefined)
       return;
 
-    const docSnap = await getDoc(doc(db, "listings", uid));
+    const docSnap = await getDoc(doc(db, "user-info", uid));
+
+    if (!docSnap.exists())
+      history.push("/ss/info");
+
     let listings_new = [];
 
-    for (let i of Object.entries(docSnap.data())) {
-      if (typeof i[1] !== "string")
-        listings_new.push(i);
+    for (let id of docSnap.data().listings) {
+      const listingSnap = await getDoc(doc(db, "listings", id));
+      listings_new.push([listingSnap.id, listingSnap.data()]);
     }
+
     setListings(listings_new);
 
     if (listings_new.length > 4) {
@@ -69,14 +74,18 @@ function Main() {
   }
 
   async function updateListing(key, new_val) {
-    const docSnap = await getDoc(doc(db, "listings", uid));
+    const docSnap = await getDoc(doc(db, "listings", key));
 
-    for (let i of Object.values(docSnap.data()[key].pictures)) {
+    for (let i of docSnap.data().pictures) {
       await deleteObject(ref(storage, i));
     }
 
-    updateDoc(doc(db, "listings", uid), {
-      [key] : new_val
+    updateDoc(doc(db, "listings", key), {
+      status : new_val
+    })
+
+    updateDoc(doc(db, "user-info", uid), {
+      listings: arrayRemove(key)
     })
 
     updateListings();
@@ -89,9 +98,9 @@ function Main() {
       {
         listings.map((listing) => (
           <section className="listing-sell" key={listing[0]}>
-            <p>{listing[1].basicinfo.name} - {getDate(listing[1].time.toDate())}</p>
+            <p>{listing[1].basicinfo.name} - {getDate(listing[1]["create-time"].toDate())}</p>
             <article>
-              <Link to={"/ms/item/" + uid + "/" + listing[0]} className="link-listing-sell">View</Link>
+              <Link to={"/ms/item/" + listing[0]} className="link-listing-sell">View</Link>
               {/* <Link to={"/ms/sell/sell-item/bob"} className="link-listing-sell">Edit</Link> */}
               <p onClick={() => {updateListing(listing[0], "r")}}>Remove</p>
               <p onClick={() => {updateListing(listing[0], "s")}}>Sold</p>

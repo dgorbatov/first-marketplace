@@ -22,7 +22,7 @@ function Main() {
           <Buy query={search}/>
         </Route>
 
-        <Route path="/ms/item/:uid/:id" exact>
+        <Route path="/ms/item/:id" exact>
           <Item />
         </Route>
 

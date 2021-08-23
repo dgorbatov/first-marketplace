@@ -31,19 +31,11 @@ function Buy(props) {
       let new_listings = []
 
       docs.forEach(doc => {
-        new_listings.push([doc.id, Object.values(doc.data()), Object.keys(doc.data())]);
-      })
+        if (doc.data().status === "a")
+          new_listings.push([doc.id, doc.data()]);
+      });
 
-      const new_new_listings = []
-      for (let user_listings of new_listings) {
-        let i=0;
-        for (let listing of user_listings[1]) {
-          if (typeof listing != "string")
-            new_new_listings.push([user_listings[0] + "/" + user_listings[2][i], listing]);
-          ++i;
-        }
-      }
-      new_listings = await modifyListings(new_new_listings);
+      new_listings = await modifyListings(new_listings);
 
       setListings(new_listings);
     }
