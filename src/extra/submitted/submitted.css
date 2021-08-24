@@ -1,0 +1,18 @@
+.submitted {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #3e3e3e;
+}
+
+.submitted .submitted-check {
+  color: green;
+}
+
+.submitted p {
+  font-size: 4vw;
+  color: white;
+}

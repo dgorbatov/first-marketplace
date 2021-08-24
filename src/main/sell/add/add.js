@@ -6,7 +6,6 @@ import { initializeApp } from "firebase/app";
 import { useState, useRef } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { getFirestore, updateDoc, Timestamp, addDoc, collection, doc, arrayUnion } from "firebase/firestore";
-import Check from "../../../assets/check.png";
 import { Icon } from '@iconify/react';
 
 
@@ -48,7 +47,6 @@ function Add() {
   const [error, setError] = useState(null);
   const [pictures, setPictures] = useState([]);
   const [uid, setUid] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
 
@@ -145,8 +143,9 @@ function Add() {
     });
 
     setLoading(false);
-    setSubmitted(true);
-    setTimeout(() => history.push("/ms/sell/menu"), 1000);
+    history.push("/e/submitted?message=Your%20Product%20has%20been%20Posted&url=/ms/sell/menu");
+    // setSubmitted(true);
+    // setTimeout(() => history.push("/ms/sell/menu"), 1000);
   }
 
   async function uploadPics(docName) {
@@ -177,14 +176,7 @@ function Add() {
   return (
     <div className="add">
       {loading && <Icon icon="eos-icons:bubble-loading" height="30vh" width="30vw" className="loading"/>}
-      { !submitted && !loading && (edit ? <p>Edit Listing</p> : <p>Create A New Listing</p>)}
-      { submitted && !loading &&
-        <div className="add-submitted">
-          <img src={Check} alt="Check Mark" />
-          <p>Thank You!</p>
-          <p>Your Product has been Posted</p>
-        </div>
-      }
+      { !loading && (edit ? <p>Edit Listing</p> : <p>Create A New Listing</p>)}
       { !loading &&
         <article>
           <form onSubmit={handleSubmit}>

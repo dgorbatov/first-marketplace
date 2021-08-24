@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /contact-form-submissions/{document=**} {
+      allow read: if false;
+      allow update: if false;
+      allow create: if true;
+    }
+    match /user-info/{uid} {
+    	allow read: if request.auth.uid == uid;
+      allow update: if request.auth.uid == uid;
+      allow create: if request.auth.uid == uid;
+    }
+    match /listings/{id} {
+    	allow read: if true;
+      allow update: if request.auth.uid != null;
+      allow create: if true;
+    }
+  }
+}

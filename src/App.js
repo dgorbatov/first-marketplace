@@ -1,6 +1,7 @@
 import './App.css';
 import Logdout from "./logedout/logedout";
 import Main from "./main/main";
+import Extra from "./extra/extra";
 import { initializeApp } from "firebase/app";
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Error from "./error/error";
@@ -34,6 +35,10 @@ function App() {
 
           <Route path="/ms">
             <Main />
+          </Route>
+
+          <Route path="/e">
+            <Extra />
           </Route>
 
           <Route path="/" exact>

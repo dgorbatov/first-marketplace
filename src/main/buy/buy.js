@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, onSnapshot, collection } from "firebase/firestore";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { Icon } from '@iconify/react';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -19,7 +18,6 @@ const firebaseConfig = {
 };
 initializeApp(firebaseConfig);
 const db = getFirestore();
-const storage = getStorage();
 
 function Buy(props) {
   const [listings, setListings] = useState([]);
@@ -45,13 +43,6 @@ function Buy(props) {
     let res = []
 
     for (let list of listings_modify) {
-      let url = null;
-
-      if (list[1].pictures[0] !== undefined) {
-        const pic_ref = ref(storage, list[1].pictures[0])
-        url = await getDownloadURL(pic_ref)
-      }
-
       let shipping = "";
 
       if (list[1].shipping.delivery)
@@ -68,7 +59,7 @@ function Buy(props) {
         description: list[1].basicinfo.description,
         name: list[1].basicinfo.name,
         price: list[1].basicinfo.price,
-        picture: url,
+        picture: list[1]["picture_urls"][0],
         ship: shipping,
         brand: list[1].tags.brand,
         condition: list[1].tags.condition,

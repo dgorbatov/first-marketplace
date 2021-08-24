@@ -30,3 +30,9 @@ body {
 input:focus {
   outline: none;
 }
+
+.loading {
+  color: white;
+  justify-self: center;
+  margin-top: 20vh;
+}

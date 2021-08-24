@@ -65,10 +65,9 @@ function Item() {
 
     if (new_idx >= gotListing.pictures.length)
       new_idx = 0;
-    const url = await getDownloadURL(ref(storage, gotListing.pictures[new_idx]));
 
     setIdx(new_idx);
-    setPictureUrl(url)
+    setPictureUrl(gotListing["picture_urls"][new_idx])
   }
 
   async function goBack() {
@@ -78,10 +77,9 @@ function Item() {
 
     if (new_idx < 0)
       new_idx = gotListing.pictures.length - 1;
-    const url = await getDownloadURL(ref(storage, gotListing.pictures[new_idx]));
 
     setIdx(new_idx);
-    setPictureUrl(url)
+    setPictureUrl(gotListing["picture_urls"][new_idx])
   }
 
   function contact() {
