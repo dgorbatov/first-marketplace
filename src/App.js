@@ -5,6 +5,10 @@ import Extra from "./extra/extra";
 import { initializeApp } from "firebase/app";
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Error from "./error/error";
+import connectAll from "./extra/emulators";
+import { getAuth } from '@firebase/auth';
+import { getFirestore } from '@firebase/firestore';
+import { getStorage } from '@firebase/storage';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -18,6 +22,11 @@ const firebaseConfig = {
   measurementId: "G-R8M8TSPN42"
 };
 initializeApp(firebaseConfig);
+
+const auth = getAuth();
+const db = getFirestore();
+const storage = getStorage();
+connectAll(auth, db, storage);
 
 function App() {
   return (

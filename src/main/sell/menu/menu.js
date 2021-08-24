@@ -1,14 +1,15 @@
 import "./menu.css";
 import { Link, useHistory } from "react-router-dom";
 import { Icon } from '@iconify/react';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged  } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getDoc, getFirestore, doc, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
+import "../../../extra/emulators";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+let firebaseConfig = {
   apiKey: "AIzaSyDHRkVZq1gWEQ4kWLsV--PjSdc2udL1kX4",
   authDomain: "firstmarketplace-d3d3b.firebaseapp.com",
   databaseURL: "https://firstmarketplace-d3d3b-default-rtdb.firebaseio.com",
@@ -18,7 +19,9 @@ const firebaseConfig = {
   appId: "1:506337230664:web:7355588d6370176d6a3d7d",
   measurementId: "G-R8M8TSPN42"
 };
+
 initializeApp(firebaseConfig);
+
 const auth = getAuth();
 const db = getFirestore();
 const storage = getStorage();
@@ -30,19 +33,7 @@ function Main() {
   const [uid, setUid] = useState(undefined);
   const [loading, setLoading] = useState(false);
 
-  onAuthStateChanged(auth, async user => {
-    if (!user) {
-      history.push("/ss/ls/login");
-    } else if (listings.length === 0) {
-      setUid(user.uid);
-      updateListings();
-    } else {
-      setUid(user.uid);
-    }
-  });
-
-  async function updateListings() {
-    setLoading(true);
+  const updateListings = useCallback(async () => {
     if (uid === undefined)
       return;
 
@@ -65,8 +56,20 @@ function Main() {
     } else {
       setError("");
     }
-    setLoading(false);
-  }
+  }, [history, uid]);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        history.push("/ss/ls/login");
+      } else if (listings.length === 0) {
+        setUid(user.uid);
+        updateListings();
+      } else {
+        setUid(user.uid);
+      }
+    });
+  }, [history, listings.length, updateListings])
 
   function getDate(time) {
     time = time.toISOString().slice(0,10).replace(/-/g,"");

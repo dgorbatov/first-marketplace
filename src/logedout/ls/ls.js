@@ -28,13 +28,19 @@ function LS() {
   function signInWithGoogle() {
     signInWithPopup(auth, new GoogleAuthProvider())
      .then(() => { history.push("/ss/info"); })
-     .catch((error) => { history.push("/error" + error.code); });
+     .catch((error) => {
+        if (error.code !== "auth/popup-closed-by-user")
+          history.push("/error" + error.code);
+      });
   }
 
   function signInWithGithub() {
     signInWithPopup(auth, new GithubAuthProvider())
      .then((result) => { history.push("/ss/info"); })
-     .catch((error) => { history.push("/error" + error.code); });
+     .catch((error) => {
+        if (error.code !== "auth/popup-closed-by-user")
+          history.push("/error" + error.code);
+      });
   }
 
   function logInWithEmail() {

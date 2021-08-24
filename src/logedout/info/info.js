@@ -4,6 +4,7 @@ import { useHistory, Link } from "react-router-dom";
 import { doc, getDoc, setDoc, getFirestore  } from "firebase/firestore";
 import { useState } from "react";
 import { initializeApp } from "firebase/app";
+import { Icon } from '@iconify/react';
 const geofire = require('geofire-common');
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -29,6 +30,7 @@ function Info() {
   const [numMem, setNumMem ] = useState("");
   const [comp, setComp ] = useState("FLL");
   const [position, setPosition ] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [locationAccess, setLocationAccess ] = useState("na");
   let history = useHistory();
@@ -41,6 +43,7 @@ function Info() {
       if (docSnap.exists()) {
         history.push("/");
       }
+      setLoading(false);
     } else {
       history.push("/");
     }
@@ -48,6 +51,7 @@ function Info() {
 
   async function addTeam(form) {
     form.preventDefault();
+    setLoading(true);
 
     const user = auth.currentUser;
     const hash = geofire.geohashForLocation([position.coords.latitude, position.coords.longitude]);
@@ -66,12 +70,14 @@ function Info() {
       listings: []
     });
 
+    setLoading(false);
     history.push("/");
   }
 
   return (
     <div className="info">
-      <article>
+      {loading ? <Icon icon="eos-icons:bubble-loading" height="30vh" width="30vw" className="loading"/>
+      : <article>
         <form onSubmit={addTeam}>
           <h1>Additional Team Information</h1>
             <section>
@@ -105,7 +111,7 @@ function Info() {
             {(locationAccess === "rejected") && <p>Please Allow Access To Your Location</p>}
           <button disabled={!(locationAccess === "given")}>Create Team</button>
         </form>
-      </article>
+      </article> }
     </div>
   );
 }
