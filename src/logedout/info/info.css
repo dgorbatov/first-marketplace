@@ -42,8 +42,15 @@
   font-size: 1.4vw;
 }
 
+.info .select-info {
+  height: 3vh;
+  width: 30.5vw;
+  padding: 0;
+  margin-bottom: 5vh;
+}
+
 .info input, .info select, .info .share-location {
-  height: 4vw;
+  height: 6vh;
   border: 0px;
   width: 30vw;
 }

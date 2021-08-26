@@ -8,10 +8,10 @@ function Lake() {
       <img src={beach} alt="robot parts on stump"></img>
 
       <section className="stats">
-        <h2>Over 100 active teams</h2>
-        <h2>Over 200 listings</h2>
-        <h2>Over 100 parts donated</h2>
-        <h2>Over 30 items sold</h2>
+        <h2>Excellent idea - Aakarsh (18737)</h2>
+        <h2>Seems Neat - Abhii (FRC Sushi squad)</h2>
+        <h2>Love the idea - Nate (18657)</h2>
+        <h2>Looks Great! - Hanoop</h2>
       </section>
 
       <article>

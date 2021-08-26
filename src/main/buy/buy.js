@@ -1,6 +1,6 @@
 import "./buy.css"
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, onSnapshot, collection } from "firebase/firestore";
 import { Icon } from '@iconify/react';
@@ -21,6 +21,17 @@ const db = getFirestore();
 
 function Buy(props) {
   const [listings, setListings] = useState([]);
+  const [fullListings, setFullListings] = useState([]);
+
+  const compListings = useCallback((list1, list2) => {
+    if (props.country === "")
+      return 0;
+    if (list1.country === props.country)
+      return -1;
+    if (list2.country === props.country)
+      return 1;
+    return 0;
+  }, [props.country]);
 
   useEffect(() => {
     onSnapshot(collection(db, "listings"), getListings);
@@ -35,9 +46,35 @@ function Buy(props) {
 
       new_listings = await modifyListings(new_listings);
 
+      setFullListings(new_listings);
+      new_listings.sort(compListings);
       setListings(new_listings);
     }
-  }, []);
+
+  }, [compListings]);
+
+  useEffect(() => {
+    if (props.query === null)
+      return;
+    if (props.query === "")
+      setListings(fullListings);
+    else {
+      let resulting_listings = [];
+
+      for (let i of fullListings) {
+        if (i.name.toLowerCase().includes(props.query.trim().toLowerCase()))
+          resulting_listings.push(i);
+      }
+
+      for (let i of fullListings) {
+        if (i.description.toLowerCase().includes(props.query.trim().toLowerCase()))
+          resulting_listings.push(i);
+      }
+
+      resulting_listings.sort(compListings);
+      setListings(resulting_listings);
+    }
+  }, [props.query, fullListings, compListings]);
 
   async function modifyListings(listings_modify) {
     let res = []
@@ -53,17 +90,23 @@ function Buy(props) {
         shipping += "Local"
       }
 
+      let picture = null;
+      if (list[1]["picture_urls"] !== undefined && list[1]["picture_urls"][0] !== undefined) {
+        picture = list[1]["picture_urls"][0];
+      }
+
       res.push({
         key: list[0],
         city: list[1].basicinfo.city,
         description: list[1].basicinfo.description,
         name: list[1].basicinfo.name,
         price: list[1].basicinfo.price,
-        picture: list[1]["picture_urls"][0],
+        picture: picture,
         ship: shipping,
         brand: list[1].tags.brand,
         condition: list[1].tags.condition,
-        comp: list[1].tags.comp
+        comp: list[1].tags.comp,
+        country: list[1].basicinfo.country
       });
     }
 
@@ -74,8 +117,8 @@ function Buy(props) {
     <div className="buy">
       <section>
         {
-          listings.map(listing => (
-            <Link className="buy-link" key={listing.key} to={"/ms/item/" + listing.key}>
+          listings.map((listing, index) => (
+            <Link className="buy-link" key={index} to={"/ms/item/" + listing.key}>
               <article className="listing-buy">
                 <article>
                   <section className="buy-top">
@@ -85,6 +128,11 @@ function Buy(props) {
                     {
                       listing.brand !== "Other" &&
                       <div className="buy-tag" style={{ "backgroundColor": "#FF5555" }}><p>{listing.brand}</p></div>
+                    }
+
+                    {
+                      listing.country !== undefined &&
+                      <div className="buy-tag" style={{ "backgroundColor": "#37D3F5" }}><p>{listing.country}</p></div>
                     }
                   </section>
 
@@ -106,36 +154,6 @@ function Buy(props) {
             </Link>
           ))
         }
-
-        {/* <Link className="buy-link">
-          <article className="listing-buy">
-            <article>
-              <section>
-                <h1>Flywheelasdasdasdasdasdasdasdasdasdasasdasdasd</h1>
-                <div className="buy-tag" style={{ "background-color": "#1CE79E" }}><p>Used</p></div>
-                <div className="buy-tag" style={{ "background-color": "#F3819C" }}><p>FTC</p></div>
-              </section>
-
-              <section>
-                <h2>$200 - Sammamish WA</h2>
-                <h2>Shipped</h2>
-              </section>
-
-              <section>
-                <p>
-                  This flywheel has all the fetures of an excellent flywhell.
-                  It has a wheel, a motor, and an axel. And it even comes pre-assembled!!!
-                  This flywheel has all the fetures of an excellent flywhell.
-                  It has a wheel, a motor, and an axel. And it even comes pre-assembled!!!
-                  This flywheel has all the fetures of an excellent flywhell.
-                  It has a wheel, a motor, and an axel. And it even comes pre-assembled!!!
-                </p>
-              </section>
-            </article>
-
-            <img src={lake} alt="lake"/>
-          </article>
-        </Link> */}
       </section>
     </div>
   )

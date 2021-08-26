@@ -1,3 +1,7 @@
 .overflow-hide {
   overflow-x: hidden;
 }
+
+.Welcome {
+  scroll-snap-type: y mandatory;
+}

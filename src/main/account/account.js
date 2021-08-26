@@ -1,5 +1,5 @@
 import "./account.css";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { initializeApp  } from "firebase/app";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -18,17 +18,17 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const auth = getAuth();
 
-function Account() {
+function Account(props) {
   const history = useHistory();
   const [signOutAccount, setSignOutAccount] = useState(false);
 
-  onAuthStateChanged(auth, async user => {
-    if (!user && !signOutAccount) {
+  useState(() => {
+    if (!props.authState) {
       history.push("/ss/ls/login");
-    } else if (!user) {
+    } else if (signOutAccount) {
       history.push("/");
     }
-  });
+  }, [signOutAccount]);
 
   return (
     <div className="account">

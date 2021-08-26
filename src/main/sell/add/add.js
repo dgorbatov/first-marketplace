@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { useState, useRef } from "react";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { getFirestore, updateDoc, Timestamp, addDoc, collection, doc, arrayUnion } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
+import { getFirestore, updateDoc, Timestamp, addDoc, collection, doc, arrayUnion, getDoc } from "firebase/firestore";
 import { Icon } from '@iconify/react';
 
 
@@ -38,6 +38,8 @@ function Add() {
   const spec = useRef("");
   const delivery = useRef(false);
   const pickup = useRef(false);
+  const quantity = useRef(1);
+  const [country, setCountry] = useState("");
   const [shippingCost, setShippingCost] = useState("");
   const [shippingTime, setShippingTime] = useState("");
   const [showDelivery, setShowDelivery] = useState(false);
@@ -48,19 +50,68 @@ function Add() {
   const [pictures, setPictures] = useState([]);
   const [uid, setUid] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [editPictures, setEditPictures] = useState([]);
+  const [newPics, setNewPics] = useState(false);
+  const [picArr, setPicArr] = useState([]);
 
+  useState(() => {
+    onAuthStateChanged(auth, async user => {
+      if (user) {
+        setUid(user.uid);
 
-  onAuthStateChanged(auth, async user => {
-    if (user) {
-      if (id !== "new") {
-        // Edit page
-        setEdit(true);
+        if (id !== "new") {
+          // Edit page
+          setEdit(true);
+          await fillInFields();
+        } else {
+          if (email.target !== "") {
+            setLoading(true);
+            const docSnap = await getDoc(doc(db, "user-info", user.uid));
+            setCountry(docSnap.data().country.label);
+            setLoading(false);
+          }
+        }
+      } else {
+        history.push("/ss/ls/login");
       }
-      setUid(user.uid);
-    } else {
-      history.push("/ss/ls/login");
+    });
+
+    async function fillInFields() {
+      setLoading(true);
+      const docSnap = await getDoc(doc(db, "listings", id));
+      setLoading(false);
+
+      if (!docSnap.exists())
+        history.push("error/404");
+
+      const data = docSnap.data();
+
+      if (name.current !== "") {
+        name.current.value = data.basicinfo.name;
+        city.current.value = data.basicinfo.city;
+        price.current.value = data.basicinfo.price;
+        email.current.value = data.basicinfo.email;
+        description.current.value = data.basicinfo.description;
+
+        if (data.basicinfo.quantity !== undefined)
+          quantity.current.value = data.basicinfo.quantity;
+        if (data.basicinfo.country !== undefined)
+          setCountry(data.basicinfo.country);
+
+        spec.current.value = data.basicinfo.spec;
+        delivery.current.checked = data.shipping.delivery;
+        pickup.current.checked = data.shipping.pickup;
+        setShippingCost(data.shipping.shippingCost);
+        setShippingTime(data.shipping.shippingTime);
+        url.current.value = data.url;
+        setEditPictures(data["picture_urls"]);
+        setComp(data.tags.comp);
+        setCondition(data.tags.condition);
+        setBrand(data.tags.brand);
+        setPicArr(data.pictures);
+      }
     }
-  });
+  }, []);
 
   function handleErrors() {
     if (comp == null || brand == null || condition == null) {
@@ -83,7 +134,52 @@ function Add() {
   }
 
   async function editDoc() {
-    console.error("NOT IMPLEMENTED YET");
+    setLoading(true);
+
+    await updateDoc(doc(db, "listings", id), {
+      basicinfo: {
+        name: name.current.value,
+        city: city.current.value,
+        country: country,
+        price: price.current.value,
+        email: email.current.value,
+        description: description.current.value,
+        spec: spec.current.value,
+        quantity: quantity.current.value
+      },
+      shipping : {
+        delivery: delivery.current.checked,
+        pickup: pickup.current.checked,
+        shippingCost: shippingCost,
+        shippingTime: shippingTime
+      },
+      tags : {
+        comp: comp,
+        condition: condition,
+        brand: brand
+      },
+      "update-time": Timestamp.now(),
+      status: "a",
+      uid: uid,
+      url: url.current.value
+    });
+
+    if (newPics) {
+      for (let i of picArr) {
+        await deleteObject(ref(storage, i));
+      }
+
+      let picture_urls = await uploadPics(id);
+      setPictures([]);
+
+      await updateDoc(doc(db, "listings", id), {
+        pictures: picture_urls[0],
+        "picture_urls": picture_urls[1]
+      });
+    }
+
+    setLoading(false);
+    history.push("/e/submitted?message=Your%20Product%20has%20been%20Edited&url=/ms/sell/menu");
   }
 
   async function handleSubmit(form) {
@@ -102,10 +198,12 @@ function Add() {
       basicinfo: {
         name: name.current.value,
         city: city.current.value,
+        country: country,
         price: price.current.value,
         email: email.current.value,
         description: description.current.value,
-        spec: spec.current.value
+        spec: spec.current.value,
+        quantity: quantity.current.value
       },
       shipping : {
         delivery: delivery.current.checked,
@@ -125,13 +223,7 @@ function Add() {
     });
 
     let picture_urls = await uploadPics(list_doc.id);
-    // let picture_urls = await uploadPics("TESTING_SUIT");
-    // console.log(picture_urls);
     setPictures([]);
-
-    // for (let i of picture_urls[1]) {
-    //   console.log(i)
-    // }
 
     await updateDoc(list_doc, {
       pictures: picture_urls[0],
@@ -144,8 +236,6 @@ function Add() {
 
     setLoading(false);
     history.push("/e/submitted?message=Your%20Product%20has%20been%20Posted&url=/ms/sell/menu");
-    // setSubmitted(true);
-    // setTimeout(() => history.push("/ms/sell/menu"), 1000);
   }
 
   async function uploadPics(docName) {
@@ -163,13 +253,6 @@ function Add() {
       web_urls.push(url);
     }
 
-    // await pictures.map(async file => {
-    //   await uploadBytes(ref(storage, uid + "/" + docName + "/" + file.name), file);
-    //   const url = await getDownloadURL(ref(storage, uid + "/" + docName + "/" + file.name));
-    //   web_urls.push(url);
-    //   return null;
-    // })
-
     return [urls, web_urls];
   }
 
@@ -183,9 +266,12 @@ function Add() {
             <section className="add-listing-centered">
               <input type="text" required placeholder="Product Name*" ref={name}/>
               <input type="text" required placeholder="City*" ref={city}/>
+              <input type="text" required placeholder="Country*" value={country}
+                onChange={val => setCountry(val.target.value)}/>
               <input type="number" required placeholder="Price(USD)*" ref={price}/>
               <input type="email" required placeholder="Email Address*" ref={email}/>
               <input type="url" placeholder="Original URL of Product" ref={url}/>
+              <input type="number" placeholder="Quantity*" ref={quantity} min="1" required/>
             </section>
 
             <section className="add-listing-centered">
@@ -196,7 +282,7 @@ function Add() {
             <section className="upload-pictures">
               <article>
                 <label className="custom-file-upload">
-                  <input type="file" accept="image/*" multiple onChange={(file) => { setPictures(Object.values(file.target.files)); } }/>
+                  <input type="file" accept="image/*" multiple onChange={(file) => { setNewPics(true); setEditPictures([]); setPictures(Object.values(file.target.files)); } }/>
                   Add Pictures
               </label>
               </article>
@@ -204,10 +290,14 @@ function Add() {
               {pictures.map((file, index) => (
                 <img src={URL.createObjectURL(file)} alt="upload by user" key={index}
                 onClick={() => {
-                  let new_pics = pictures;
-                  new_pics.splice(index, 1);
-                  setPictures(new_pics);
+                  // let new_pics = pictures;
+                  // new_pics.splice(index, 1);
+                  // setPictures(new_pics);
                 }}/>
+              ))}
+
+              {editPictures.map((file, index) => (
+                <img src={file} alt="upload by user" key={index+5}/>
               ))}
             </section>
 
@@ -242,19 +332,19 @@ function Add() {
                   <p>League</p>
 
                   <article>
-                    <input type="radio" name="comp"
+                    <input type="radio" name="comp" checked={comp === "FLL"}
                       onChange={() => setComp("FLL") }/>
                     <label>FLL</label>
                   </article>
 
                   <article>
-                    <input type="radio" name="comp"
+                    <input type="radio" name="comp" checked={comp === "FTC"}
                       onChange={() => setComp("FTC") }/>
                     <label>FTC</label>
                   </article>
 
                   <article>
-                    <input type="radio" name="comp"
+                    <input type="radio" name="comp" checked={comp === "FRC"}
                       onChange={() => setComp("FRC")}/>
                     <label>FRC</label>
                   </article>
@@ -264,19 +354,19 @@ function Add() {
                   <p>Condition</p>
 
                   <article>
-                    <input type="radio" name="condition"
+                    <input type="radio" name="condition" checked={condition === "New"}
                       onChange={() => setCondition("New") }/>
                     <label>New</label>
                   </article>
 
                   <article>
-                    <input type="radio" name="condition" value="Used"
+                    <input type="radio" name="condition" value="Used" checked={condition === "Used"}
                       onChange={() => setCondition("Used") }/>
                     <label>Used</label>
                   </article>
 
                   <article>
-                    <input type="radio" name="condition" value="Sort of new"
+                    <input type="radio" name="condition" value="Sort of new" checked={condition === "Sort of new"}
                       onChange={() => setCondition("Sort of new")}/>
                     <label>Sort Of Used</label>
                   </article>
@@ -286,19 +376,19 @@ function Add() {
                   <p>Brand</p>
 
                   <article>
-                    <input type="radio" name="brand"
+                    <input type="radio" name="brand" checked={brand === "REV"}
                       onChange={() => setBrand("REV") }/>
                     <label>REV</label>
                   </article>
 
                   <article>
-                    <input type="radio" name="brand"
+                    <input type="radio" name="brand" checked={brand === "Andymark"}
                       onChange={() => setBrand("Andymark") }/>
                     <label>Andymark</label>
                   </article>
 
                   <article>
-                    <input type="radio" name="brand"
+                    <input type="radio" name="brand" checked={brand === "Gobuilda"}
                       onChange={() => setBrand("Gobuilda")}/>
                     <label>Gobuilda</label>
                   </article>
@@ -307,19 +397,19 @@ function Add() {
                 <section className="brands-continue">
                   <p>{"<--"}</p>
                   <article>
-                    <input type="radio" name="brand"
-                      onChange={() => setBrand("PITSCO ") }/>
+                    <input type="radio" name="brand" checked={brand === "PITSCO"}
+                      onChange={() => setBrand("PITSCO") }/>
                     <label>PITSCO </label>
                   </article>
 
                   <article>
-                    <input type="radio" name="brand"
-                      onChange={() => setBrand("Tetrix") }/>
-                    <label>Tetrix</label>
+                    <input type="radio" name="brand" checked={brand === "EV3"}
+                      onChange={() => setBrand("EV3") }/>
+                    <label>EV3</label>
                   </article>
 
                   <article>
-                    <input type="radio" name="brand"
+                    <input type="radio" name="brand" checked={brand === "Other"}
                       onChange={() => setBrand("Other")}/>
                     <label>Other</label>
                   </article>

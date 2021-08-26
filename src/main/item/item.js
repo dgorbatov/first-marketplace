@@ -1,7 +1,6 @@
 import "./item.css"
 import { initializeApp } from "firebase/app";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { Icon } from '@iconify/react';
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -20,7 +19,6 @@ const firebaseConfig = {
 };
 initializeApp(firebaseConfig);
 const db = getFirestore();
-const storage = getStorage();
 const auth = getAuth();
 
 function Item() {
@@ -30,12 +28,13 @@ function Item() {
   const [pictureUrl, setPictureUrl] = useState("");
   const [idx, setIdx] = useState(0);
   const [contText, setContText] = useState("Contact Owner");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
     async function fetchData() {
+      setLoading(true);
       const docSnap = await getDoc(doc(db, "listings", id));
-      console.log(docSnap.data());
       if (!(docSnap.exists()))
         history.push("/error/404");
 
@@ -48,12 +47,13 @@ function Item() {
         }
 
         let url = null;
-        if (docSnap.data().pictures[0] !== undefined)
-          url = await getDownloadURL(ref(storage, docSnap.data().pictures[0]));
+        if (docSnap.data()["picture_urls"][0] !== undefined)
+          url = docSnap.data()["picture_urls"][0];
 
         setPictureUrl(url)
         setGotListing(docSnap.data());
       }
+      setLoading(false);
     }
     fetchData();
   }, [history, id]);
@@ -95,16 +95,19 @@ function Item() {
 
   return (
     <div className="outer-item">
+      {loading ? <Icon icon="eos-icons:bubble-loading" height="30vh" width="30vw" className="loading"/>
+      :
       <div className="item">
         { gotListing.status === "a" &&
           <section>
             <h1 className="item-wrap" >{gotListing.basicinfo.name}</h1>
-            <p className="item-wrap" ><strong>Location:</strong> {gotListing.basicinfo.city}</p>
+            <p className="item-wrap" ><strong>Location:</strong> {gotListing.basicinfo.city + (gotListing.basicinfo.country !== undefined && ( " - " + gotListing.basicinfo.country))}</p>
             <p>
                 <strong>Price:</strong> ${gotListing.basicinfo.price}
                 {gotListing.shipping.shippingCost !== "" &&
                 ("+ $" + gotListing.shipping.shippingCost + " shipping")}
             </p>
+            {gotListing.basicinfo.quantity !== undefined && <p><strong>Quantity:</strong> {gotListing.basicinfo.quantity}</p>}
             <p><strong>Shipping:</strong> {gotListing.shipping.delivery ?
               ("Available, Shipping Time: " + gotListing.shipping.shippingTime) :
               "Not Available"}</p>
@@ -136,7 +139,7 @@ function Item() {
           gotListing.status !== "a" && typeof gotListing.status === "string" &&
           <p className="item-error">{gotListing}</p>
         }
-      </div>
+      </div> }
     </div>
   )
 }

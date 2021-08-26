@@ -16,7 +16,7 @@ function Submitted() {
   useEffect(() => {
     setTimeout(() => {
       history.push(query.get("url"))
-    }, 1000);
+    }, 1500);
   }, [query, history]);
 
   return (

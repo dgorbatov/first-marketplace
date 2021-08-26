@@ -1,7 +1,6 @@
 import "./menu.css";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Icon } from '@iconify/react';
-import { getAuth, onAuthStateChanged  } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { useCallback, useEffect, useState } from "react";
 import { getDoc, getFirestore, doc, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore";
@@ -22,54 +21,40 @@ let firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
-const auth = getAuth();
 const db = getFirestore();
 const storage = getStorage();
 
-function Main() {
-  const history = useHistory();
+function Main(props) {
   const [listings, setListings] = useState([]);
   const [error, setError] = useState("");
-  const [uid, setUid] = useState(undefined);
   const [loading, setLoading] = useState(false);
 
   const updateListings = useCallback(async () => {
-    if (uid === undefined)
+    if (props.uid === undefined)
       return;
 
-    const docSnap = await getDoc(doc(db, "user-info", uid));
-
-    if (!docSnap.exists())
-      history.push("/ss/info");
+    setLoading(true);
 
     let listings_new = [];
 
-    for (let id of docSnap.data().listings) {
+    for (let id of props.listings) {
       const listingSnap = await getDoc(doc(db, "listings", id));
       listings_new.push([listingSnap.id, listingSnap.data()]);
     }
+    setLoading(false);
 
     setListings(listings_new);
 
-    if (listings_new.length > 4) {
-      setError("Max 5 listings, to add please remove a listing or set it to sold")
+    if (listings_new.length > 9) {
+      setError("Max 10 listings, to add please remove a listing or set it to sold")
     } else {
       setError("");
     }
-  }, [history, uid]);
+  }, [props.uid, props.listings]);
 
   useEffect(() => {
-    onAuthStateChanged(auth, user => {
-      if (!user) {
-        history.push("/ss/ls/login");
-      } else if (listings.length === 0) {
-        setUid(user.uid);
-        updateListings();
-      } else {
-        setUid(user.uid);
-      }
-    });
-  }, [history, listings.length, updateListings])
+    updateListings();
+  }, [updateListings]);
 
   function getDate(time) {
     time = time.toISOString().slice(0,10).replace(/-/g,"");
@@ -91,7 +76,7 @@ function Main() {
       status : new_val
     })
 
-    updateDoc(doc(db, "user-info", uid), {
+    updateDoc(doc(db, "user-info", props.uid), {
       listings: arrayRemove(key),
       removed: arrayUnion(key)
     })
@@ -113,7 +98,7 @@ function Main() {
               <p>{listing[1].basicinfo.name} - {getDate(listing[1]["create-time"].toDate())}</p>
               <article>
                 <Link to={"/ms/item/" + listing[0]} className="link-listing-sell">View</Link>
-                {/* <Link to={"/ms/sell/sell-item/bob"} className="link-listing-sell">Edit</Link> */}
+                <Link to={"/ms/sell/sell-item/" + listing[0]} className="link-listing-sell">Edit</Link>
                 <p onClick={() => {updateListing(listing[0], "r")}}>Remove</p>
                 <p onClick={() => {updateListing(listing[0], "s")}}>Sold</p>
               </article>

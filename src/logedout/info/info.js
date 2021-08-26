@@ -2,9 +2,11 @@ import "./info.css";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useHistory, Link } from "react-router-dom";
 import { doc, getDoc, setDoc, getFirestore  } from "firebase/firestore";
-import { useState } from "react";
+import { useState, useMemo  } from "react";
 import { initializeApp } from "firebase/app";
 import { Icon } from '@iconify/react';
+import Select from 'react-select'
+import countryList from 'react-select-country-list'
 const geofire = require('geofire-common');
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -31,6 +33,8 @@ function Info() {
   const [comp, setComp ] = useState("FLL");
   const [position, setPosition ] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [country, setCountry] = useState('')
+  const options = useMemo(() => countryList().getData(), [])
 
   const [locationAccess, setLocationAccess ] = useState("na");
   let history = useHistory();
@@ -60,14 +64,15 @@ function Info() {
       name: name,
       number: num,
       "num-mem": numMem,
-      program: comp,
+      program: comp.label,
       "team-creation-year": year,
       geohash: hash,
       geopoint: {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       },
-      listings: []
+      listings: [],
+      country: country
     });
 
     setLoading(false);
@@ -89,12 +94,21 @@ function Info() {
                 onChange={(val) => { setYear(val.target.value); }}/>
               <input type="number" required placeholder="Number of Team Members" value={numMem}
                 onChange={(val) => { setNumMem(val.target.value); }}/>
+              <Select className="select-info" options={options} value={country} onChange={value => {
+                setCountry(value)
+              }} />
 
-              <select value={comp} onChange={(val) => { setComp(val.target.value); }}>
+              <Select className="select-info"
+              options={[{value: "FLL", label: "FLL"}, {value: "FTC", label: "FTC"}, {value: "FRC", label: "FRC"}]} value={comp}
+              onChange={value => {
+                setComp(value)
+              }} />
+
+              {/* <select value={comp} onChange={(val) => { setComp(val.target.value); }}>
                 <option value="FLL">FLL</option>
                 <option value="FTC">FTC</option>
                 <option value="FRC">FRC</option>
-              </select>
+              </select> */}
 
               <button type="button" className="share-location"
                 onClick={() => {

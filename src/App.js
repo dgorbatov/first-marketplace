@@ -9,6 +9,8 @@ import connectAll from "./extra/emulators";
 import { getAuth } from '@firebase/auth';
 import { getFirestore } from '@firebase/firestore';
 import { getStorage } from '@firebase/storage';
+import { getAnalytics, logEvent  } from "firebase/analytics";
+import { useEffect } from 'react';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -23,12 +25,17 @@ const firebaseConfig = {
 };
 initializeApp(firebaseConfig);
 
+const analytics = getAnalytics();
 const auth = getAuth();
 const db = getFirestore();
 const storage = getStorage();
 connectAll(auth, db, storage);
 
 function App() {
+  useEffect(() => {
+    logEvent(analytics, "webpage-viewed");
+  }, []);
+
   return (
 
     <div className="App">
