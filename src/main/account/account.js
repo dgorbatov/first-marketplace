@@ -3,20 +3,12 @@ import { getAuth, signOut } from "firebase/auth";
 import { initializeApp  } from "firebase/app";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import config from "../../extra/config"
+import { doc, getFirestore, updateDoc } from "@firebase/firestore";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDHRkVZq1gWEQ4kWLsV--PjSdc2udL1kX4",
-  authDomain: "firstmarketplace-d3d3b.firebaseapp.com",
-  databaseURL: "https://firstmarketplace-d3d3b-default-rtdb.firebaseio.com",
-  projectId: "firstmarketplace-d3d3b",
-  storageBucket: "firstmarketplace-d3d3b.appspot.com",
-  messagingSenderId: "506337230664",
-  appId: "1:506337230664:web:7355588d6370176d6a3d7d",
-  measurementId: "G-R8M8TSPN42"
-};
-initializeApp(firebaseConfig);
+initializeApp(config);
 const auth = getAuth();
+const db = getFirestore();
 
 function Account(props) {
   const history = useHistory();
@@ -30,12 +22,28 @@ function Account(props) {
     }
   }, [signOutAccount]);
 
+  async function saveChanges() {
+    await updateDoc(doc(db, "user-info", props.uid), {
+      mode: props.mode
+    });
+  }
+
   return (
-    <div className="account">
-      <h1>This page is not available yet. If you need help with your account
+    <div className={props.mode === "l" ? "account light-account" : "account dark-account"}>
+      <h1>This page is not fully available yet. If you need help with your account
           please contact us at contact.firstmarketplace@gmail.com
       </h1>
-      <button onClick={() => { setSignOutAccount(true); signOut(auth);} }>Sign Out!</button>
+      <button onClick={() => props.modeCallback("d")}>Dark Mode</button>
+      <button onClick={() => props.modeCallback("l")}>Light Mode</button>
+
+      <button onClick={async () => {
+                               await signOut(auth);
+                               setSignOutAccount(true);
+                               history.push("/");
+      } }>Sign Out!</button>
+
+    <button onClick={saveChanges}>Save Changes</button>
+
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import "./item.css"
+import config from "../../extra/config";
 import { initializeApp } from "firebase/app";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 import { Icon } from '@iconify/react';
@@ -6,22 +7,11 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDHRkVZq1gWEQ4kWLsV--PjSdc2udL1kX4",
-  authDomain: "firstmarketplace-d3d3b.firebaseapp.com",
-  databaseURL: "https://firstmarketplace-d3d3b-default-rtdb.firebaseio.com",
-  projectId: "firstmarketplace-d3d3b",
-  storageBucket: "firstmarketplace-d3d3b.appspot.com",
-  messagingSenderId: "506337230664",
-  appId: "1:506337230664:web:7355588d6370176d6a3d7d",
-  measurementId: "G-R8M8TSPN42"
-};
-initializeApp(firebaseConfig);
+initializeApp(config);
 const db = getFirestore();
 const auth = getAuth();
 
-function Item() {
+function Item(props) {
   const history = useHistory();
   const { id } = useParams();
   const [gotListing, setGotListing] = useState(0);
@@ -94,7 +84,7 @@ function Item() {
   }
 
   return (
-    <div className="outer-item">
+    <div className={props.mode === "l" ? "outer-item light-item" : "outer-item dark-item"}>
       {loading ? <Icon icon="eos-icons:bubble-loading" height="30vh" width="30vw" className="loading"/>
       :
       <div className="item">
@@ -107,12 +97,16 @@ function Item() {
                 {gotListing.shipping.shippingCost !== "" &&
                 ("+ $" + gotListing.shipping.shippingCost + " shipping")}
             </p>
+            <p className="item-wrap" ><strong>Condition: </strong>{gotListing.tags.condition}</p>
+            <p className="item-wrap" ><strong>Completion: </strong>{gotListing.tags.comp}</p>
+            {gotListing.tags.brand !== "Other" && <p className="item-wrap" ><strong>Vendor: </strong>{gotListing.tags.brand}</p>}
+
             {gotListing.basicinfo.quantity !== undefined && <p><strong>Quantity:</strong> {gotListing.basicinfo.quantity}</p>}
             <p><strong>Shipping:</strong> {gotListing.shipping.delivery ?
               ("Available, Shipping Time: " + gotListing.shipping.shippingTime) :
               "Not Available"}</p>
             <p><strong>Local Pickup:</strong> {gotListing.shipping.pickup ? "Available" : "Not Available"}</p>
-            {gotListing.url !== "" && <a href={gotListing.url} className="item-link"><strong>Original Product:</strong></a>}
+            {gotListing.url !== "" && <a href={gotListing.url} className="item-link"><strong>Original Product</strong></a>}
             <p className="item-wrap"><strong>Description:</strong> {gotListing.basicinfo.description}</p>
             {gotListing.basicinfo.spec !== "" && <p className="item-wrap" ><strong>Spec:</strong> {gotListing.basicinfo.spec}</p>}
           </section>

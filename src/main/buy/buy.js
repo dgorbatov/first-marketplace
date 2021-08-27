@@ -1,22 +1,15 @@
 import "./buy.css"
+import config from "../../extra/config"
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, onSnapshot, collection } from "firebase/firestore";
 import { Icon } from '@iconify/react';
+import FLL from "../../assets/fll.png";
+import FTC from "../../assets/ftc.png";
+import FRC from "../../assets/frc.png";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDHRkVZq1gWEQ4kWLsV--PjSdc2udL1kX4",
-  authDomain: "firstmarketplace-d3d3b.firebaseapp.com",
-  databaseURL: "https://firstmarketplace-d3d3b-default-rtdb.firebaseio.com",
-  projectId: "firstmarketplace-d3d3b",
-  storageBucket: "firstmarketplace-d3d3b.appspot.com",
-  messagingSenderId: "506337230664",
-  appId: "1:506337230664:web:7355588d6370176d6a3d7d",
-  measurementId: "G-R8M8TSPN42"
-};
-initializeApp(firebaseConfig);
+initializeApp(config);
 const db = getFirestore();
 
 function Buy(props) {
@@ -67,7 +60,8 @@ function Buy(props) {
       }
 
       for (let i of fullListings) {
-        if (i.description.toLowerCase().includes(props.query.trim().toLowerCase()))
+        if (i.description.toLowerCase().includes(props.query.trim().toLowerCase())
+            && !resulting_listings.includes(i))
           resulting_listings.push(i);
       }
 
@@ -95,6 +89,13 @@ function Buy(props) {
         picture = list[1]["picture_urls"][0];
       }
 
+      let abbreviation = "";
+      if (list[1].basicinfo.country !== undefined) {
+        for (let i of list[1].basicinfo.country.split(" ")) {
+          abbreviation += i[0]
+        }
+      }
+
       res.push({
         key: list[0],
         city: list[1].basicinfo.city,
@@ -106,7 +107,8 @@ function Buy(props) {
         brand: list[1].tags.brand,
         condition: list[1].tags.condition,
         comp: list[1].tags.comp,
-        country: list[1].basicinfo.country
+        country: list[1].basicinfo.country,
+        country_abbreviation: abbreviation
       });
     }
 
@@ -114,9 +116,42 @@ function Buy(props) {
   }
 
   return (
-    <div className="buy">
+    <div className={props.mode === "l" ? "buy light-buy" : "buy dark-buy"}>
       <section>
-        {
+        { listings.length === 0 && <h1>No Listings Found</h1>}
+        { props.mode === "l" ?
+          listings.map((listing, index) => (
+            <Link className="buy-link" key={index} to={"/ms/item/" + listing.key}>
+              { console.log(listing.comp)}
+              {listing.comp === "FLL" && <img src={FLL} alt="FLL Logo" className="comp-img"/>}
+              {listing.comp === "FTC" && <img src={FTC} alt="FLL Logo" className="comp-img"/>}
+              {listing.comp === "FRC" && <img src={FRC} alt="FLL Logo" className="comp-img"/>}
+
+              <article className="listing-buy">
+                <article>
+                  <section className="buy-top">
+                    <h1>{listing.name}</h1>
+                    <h1>{listing.condition}</h1>
+                    <h1>${listing.price}</h1>
+                  </section>
+
+                  <section>
+                    <h2>{listing.city + (listing.country !== undefined ? " - " + listing.country : "")}</h2>
+                  </section>
+
+                  <section>
+                    <p>{ listing.description }</p>
+                  </section>
+                </article>
+
+                {
+                  listing.picture !== null ?
+                  <img src={ listing.picture } alt="uploaded by user"/> :
+                  <Icon icon="carbon:no-image" height="30vh" /> }
+              </article>
+            </Link>
+          ))
+          :
           listings.map((listing, index) => (
             <Link className="buy-link" key={index} to={"/ms/item/" + listing.key}>
               <article className="listing-buy">
@@ -137,7 +172,9 @@ function Buy(props) {
                   </section>
 
                   <section>
-                    <h2>${listing.price} - {listing.city}</h2>
+                    <h2>${listing.price} - {listing.city}
+                        {listing.country !== undefined && ( " - " +
+                        listing.country_abbreviation)}</h2>
                     <h2>{listing.ship}</h2>
                   </section>
 

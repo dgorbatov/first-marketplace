@@ -4,6 +4,7 @@ import Account from "./account/account";
 import Sell from "./sell/sell";
 import Buy from "./buy/buy";
 import Item from "./item/item";
+import { Icon } from '@iconify/react';
 import { Redirect, Route, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
@@ -28,10 +29,8 @@ function Main() {
   const [search, setSearch] = useState(null);
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
-
-  function setSearchCallback(query) {
-    setSearch(query);
-  }
+  const [loading, setLoading] = useState(true);
+  const [mode, setMode] = useState(undefined);
 
   useEffect(() => {
     onAuthStateChanged(auth, async user => {
@@ -39,38 +38,51 @@ function Main() {
       if (user) {
         const docSnap = await getDoc(doc(db, "user-info", user.uid));
         setUserData(docSnap.data());
+        setMode(docSnap.data().mode);
       }
+      setLoading(false);
     });
   }, []);
 
   return (
-    <div className="main">
-      <Navbar searchCallback={setSearchCallback}
+    <div className={(userData !== null && mode === "l") ? "main light-main" : "main dark-main"}>
+      {loading ? <Icon icon="eos-icons:bubble-loading" height="30vh" width="30vw" className="loading"/>
+      : <div>
+      <Navbar searchCallback={setSearch}
               authState={user !== null}
-              country={userData !== null ? userData.country.value : ""}/>
+              country={userData !== null ? userData.country.value : ""}
+              mode={userData !== null ? mode : "d"}/>
       <Switch>
         <Route path="/ms/buy" exact>
           <Buy query={search}
-               country={userData !== null ? userData.country.value : ""}/>
+               country={userData !== null ? userData.country.label : ""}
+               mode={userData !== null ? mode : "d"}/>
         </Route>
 
         <Route path="/ms/item/:id" exact>
-          <Item />
+          <Item mode={userData !== null ? mode : "d"}/>
         </Route>
 
         <Route path="/ms/sell/">
-          <Sell authState={user !== null} user={user} data={userData}/>
+          <Sell authState={user !== null}
+                user={user}
+                data={userData}
+                mode={userData !== null ? mode : "d"}/>
         </Route>
 
         <Route path="/ms/account" exact>
-          <Account authState={user !== null}/>
-
+          <Account authState={user !== null}
+                   mode={userData !== null ? mode : "d"}
+                   modeCallback={setMode}
+                   uid={user ? user.uid : undefined}
+          />
         </Route>
 
         <Route path="*" exact>
           <Redirect to="/error/404" />
         </Route>
       </Switch>
+      </div> }
     </div>
   );
 }

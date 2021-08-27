@@ -3,7 +3,7 @@ import { connectFirestoreEmulator } from "firebase/firestore";
 import { connectStorageEmulator } from "firebase/storage";
 
 function connectAll(auth, db, storage) {
-  if (window.location.hostname === "localhost") {
+  if (window.location.hostname === "localhost" && false) {
     if (auth !== null)
       connectAuthEmulator(auth, "http://localhost:9099");
     if (db !== null)

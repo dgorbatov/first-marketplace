@@ -6,21 +6,9 @@ import { useCallback, useEffect, useState } from "react";
 import { getDoc, getFirestore, doc, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import "../../../extra/emulators";
+import config from "../../../extra/config";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-let firebaseConfig = {
-  apiKey: "AIzaSyDHRkVZq1gWEQ4kWLsV--PjSdc2udL1kX4",
-  authDomain: "firstmarketplace-d3d3b.firebaseapp.com",
-  databaseURL: "https://firstmarketplace-d3d3b-default-rtdb.firebaseio.com",
-  projectId: "firstmarketplace-d3d3b",
-  storageBucket: "firstmarketplace-d3d3b.appspot.com",
-  messagingSenderId: "506337230664",
-  appId: "1:506337230664:web:7355588d6370176d6a3d7d",
-  measurementId: "G-R8M8TSPN42"
-};
-
-initializeApp(firebaseConfig);
-
+initializeApp(config);
 const db = getFirestore();
 const storage = getStorage();
 
@@ -89,7 +77,7 @@ function Main(props) {
     <div className="menu">
       {loading ? <Icon icon="eos-icons:bubble-loading" height="30vh" width="30vw" className="loading"/>
       :
-      <div className="menu">
+      <div className={props.mode === "l" ? "menu light-menu" : "menu dark-menu"}>
         <p>Current Listings</p>
         <p className="sell-menu-err">{error}</p>
         {

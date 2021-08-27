@@ -4,12 +4,6 @@
   align-items: center;
 }
 
-.add .loading {
-  color: white;
-  justify-self: center;
-  margin-top: 20vh;
-}
-
 .add .add-submitted {
   width: 100vw;
   height: 100vh;
@@ -25,11 +19,19 @@
 }
 
 .add > article {
-  background-color: #939393;
-  box-shadow: 1vw 1vh #7289DA;
   border-radius: 39px;
   width: 65vw;
   margin-bottom: 10vh;
+}
+
+.light-add > article {
+  background-color: #cacaca;
+  box-shadow: 0.5vw 0.5vh rgb(107, 107, 107);
+}
+
+.dark-add > article {
+  background-color: #939393;
+  box-shadow: 1vw 1vh #7289DA;
 }
 
 .add article form {
@@ -53,6 +55,13 @@
 
 .add input {
   border: 0px;
+}
+
+.light-add input, .light-add textarea {
+  background-color: #dbdbdb;
+}
+
+.dark-add input, .dark-add textarea {
   background-color: #C4C4C4;
 }
 
@@ -63,7 +72,6 @@
 }
 
 .add .add-listing-centered textarea {
-  background-color: #C4C4C4;
   border: 0px;
   width: 50vw;
   height: 20vh;
@@ -134,8 +142,15 @@
 }
 
 .add .add-listing-left label {
-  color: white;
   font-size: 1.6vw;
+}
+
+.light-add .add-listing-left label {
+  color: black;
+}
+
+.dark-add .add-listing-left label {
+  color: white;
 }
 
 .add .add-error {
@@ -192,15 +207,8 @@
   border-radius: 35px;
 }
 
-/* .add .upload-pictures img:hover {
-  opacity: 0.8;
-  border: 4px dashed red;
-} */
-
-
 .add .upload-pictures article {
   background: #C4C4C4;
-  border: 7px dashed #7289DA;
   box-sizing: border-box;
   font-size: 1vw;
   width: 15vw;
@@ -208,6 +216,14 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.light-add .upload-pictures article {
+  border: 7px dashed rgb(107, 107, 107);
+}
+
+.dark-add .upload-pictures article {
+  border: 7px dashed #7289DA;
 }
 
 .add input[type="file"] {

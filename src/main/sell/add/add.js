@@ -1,31 +1,18 @@
 import "./add.css";
+import config from "../../../extra/config"
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { useState, useRef } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { getFirestore, updateDoc, Timestamp, addDoc, collection, doc, arrayUnion, getDoc } from "firebase/firestore";
 import { Icon } from '@iconify/react';
 
-
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDHRkVZq1gWEQ4kWLsV--PjSdc2udL1kX4",
-  authDomain: "firstmarketplace-d3d3b.firebaseapp.com",
-  databaseURL: "https://firstmarketplace-d3d3b-default-rtdb.firebaseio.com",
-  projectId: "firstmarketplace-d3d3b",
-  storageBucket: "firstmarketplace-d3d3b.appspot.com",
-  messagingSenderId: "506337230664",
-  appId: "1:506337230664:web:7355588d6370176d6a3d7d",
-  measurementId: "G-R8M8TSPN42"
-};
-initializeApp(firebaseConfig);
-const auth = getAuth();
+initializeApp(config);
 const storage = getStorage();
 const db = getFirestore();
 
-function Add() {
+function Add(props) {
   const [edit, setEdit] = useState(false);
   const { id } = useParams();
   const history = useHistory();
@@ -48,33 +35,19 @@ function Add() {
   const [brand, setBrand] = useState(null);
   const [error, setError] = useState(null);
   const [pictures, setPictures] = useState([]);
-  const [uid, setUid] = useState(0);
   const [loading, setLoading] = useState(false);
   const [editPictures, setEditPictures] = useState([]);
   const [newPics, setNewPics] = useState(false);
   const [picArr, setPicArr] = useState([]);
 
-  useState(() => {
-    onAuthStateChanged(auth, async user => {
-      if (user) {
-        setUid(user.uid);
-
-        if (id !== "new") {
-          // Edit page
-          setEdit(true);
-          await fillInFields();
-        } else {
-          if (email.target !== "") {
-            setLoading(true);
-            const docSnap = await getDoc(doc(db, "user-info", user.uid));
-            setCountry(docSnap.data().country.label);
-            setLoading(false);
-          }
-        }
-      } else {
-        history.push("/ss/ls/login");
-      }
-    });
+  useState(async () => {
+    if (id !== "new") {
+      // Edit page
+      setEdit(true);
+      await fillInFields();
+    } else if (email.target !== "") {
+        setCountry(props.country);
+    }
 
     async function fillInFields() {
       setLoading(true);
@@ -160,7 +133,7 @@ function Add() {
       },
       "update-time": Timestamp.now(),
       status: "a",
-      uid: uid,
+      uid: props.uid,
       url: url.current.value
     });
 
@@ -218,7 +191,7 @@ function Add() {
       },
       "create-time": Timestamp.now(),
       status: "a",
-      uid: uid,
+      uid: props.uid,
       url: url.current.value
     });
 
@@ -230,7 +203,7 @@ function Add() {
       "picture_urls": picture_urls[1]
     });
 
-    await updateDoc(doc(db, "user-info", uid), {
+    await updateDoc(doc(db, "user-info", props.uid), {
       listings: arrayUnion(list_doc.id)
     });
 
@@ -243,13 +216,13 @@ function Add() {
     let web_urls = [];
 
     pictures.map(file => {
-      urls.push(uid + "/" + docName + "/" + file.name);
+      urls.push(props.uid + "/" + docName + "/" + file.name);
       return null;
     })
 
     for (let file of pictures) {
-      await uploadBytes(ref(storage, uid + "/" + docName + "/" + file.name), file);
-      const url = await getDownloadURL(ref(storage, uid + "/" + docName + "/" + file.name));
+      await uploadBytes(ref(storage, props.uid + "/" + docName + "/" + file.name), file);
+      const url = await getDownloadURL(ref(storage, props.uid + "/" + docName + "/" + file.name));
       web_urls.push(url);
     }
 
@@ -257,7 +230,7 @@ function Add() {
   }
 
   return (
-    <div className="add">
+    <div className={props.mode === "l" ? "add light-add" : "add dark-add"}>
       {loading && <Icon icon="eos-icons:bubble-loading" height="30vh" width="30vw" className="loading"/>}
       { !loading && (edit ? <p>Edit Listing</p> : <p>Create A New Listing</p>)}
       { !loading &&

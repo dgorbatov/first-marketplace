@@ -12,9 +12,6 @@
 }
 
 .buy .listing-buy {
-  background-color: #939393;
-  border-radius: 15px;
-  box-shadow: 1vw 1vh #7289DA;
   width: 70vw;
   height: 35vh;
   display: flex;
@@ -25,6 +22,25 @@
   align-items: center;
   color: black;
   text-decoration: none;
+}
+
+.light-buy .listing-buy {
+  background-color: #cacaca;
+  box-shadow: 0px;
+  border-radius: 7px;
+}
+
+.light-buy .comp-img {
+  height: 6vh;
+  position: absolute;
+  margin-top: 1.4vh;
+  margin-left: 0.4vh;
+}
+
+.dark-buy .listing-buy {
+  background-color: #939393;
+  box-shadow: 1vw 1vh #7289DA;
+  border-radius: 15px;
 }
 
 .buy .listing-buy:hover {
@@ -60,6 +76,10 @@
   width: 60vw;
   text-overflow: ellipsis;
   overflow-x: hidden !important;
+}
+
+.light-buy .buy-top h1 {
+  margin-right: 2vw;
 }
 
 .buy .listing-buy section h1 {

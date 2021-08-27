@@ -2,10 +2,23 @@
   min-height: 100vh;
   width: 100vw;
   overflow-x: hidden;
+}
+
+.dark-main {
   background-color: #3E3E3E;
+}
+.light-main {
+  background-color: #dbdbdb;
 }
 
 .main p {
   font-size: 6vw;
   color: white;
+}
+
+.dark-main p {
+  color: white;
+}
+.light-main p {
+  color: black;
 }

@@ -72,7 +72,8 @@ function Info() {
         lng: position.coords.longitude
       },
       listings: [],
-      country: country
+      country: country,
+      mode: "d"
     });
 
     setLoading(false);
