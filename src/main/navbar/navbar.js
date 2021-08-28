@@ -3,7 +3,6 @@ import { Link, Route } from "react-router-dom";
 import search from "../../assets/search.svg";
 import { useState } from "react";
 
-
 function Navbar(props) {
   const [query, setQuery] = useState("");
 

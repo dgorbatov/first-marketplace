@@ -108,7 +108,8 @@ function Buy(props) {
         condition: list[1].tags.condition,
         comp: list[1].tags.comp,
         country: list[1].basicinfo.country,
-        country_abbreviation: abbreviation
+        country_abbreviation: abbreviation,
+        currency: list[1].basicinfo.currency
       });
     }
 
@@ -122,7 +123,6 @@ function Buy(props) {
         { props.mode === "l" ?
           listings.map((listing, index) => (
             <Link className="buy-link" key={index} to={"/ms/item/" + listing.key}>
-              { console.log(listing.comp)}
               {listing.comp === "FLL" && <img src={FLL} alt="FLL Logo" className="comp-img"/>}
               {listing.comp === "FTC" && <img src={FTC} alt="FLL Logo" className="comp-img"/>}
               {listing.comp === "FRC" && <img src={FRC} alt="FLL Logo" className="comp-img"/>}
@@ -132,7 +132,7 @@ function Buy(props) {
                   <section className="buy-top">
                     <h1>{listing.name}</h1>
                     <h1>{listing.condition}</h1>
-                    <h1>${listing.price}</h1>
+                    <h1>{listing.currency + listing.price}</h1>
                   </section>
 
                   <section>
@@ -172,7 +172,7 @@ function Buy(props) {
                   </section>
 
                   <section>
-                    <h2>${listing.price} - {listing.city}
+                    <h2>{listing.currency + listing.price} - {listing.city}
                         {listing.country !== undefined && ( " - " +
                         listing.country_abbreviation)}</h2>
                     <h2>{listing.ship}</h2>

@@ -1,9 +1,9 @@
 import "./account.css";
+import config from "../../extra/config"
 import { getAuth, signOut } from "firebase/auth";
 import { initializeApp  } from "firebase/app";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import config from "../../extra/config"
 import { doc, getFirestore, updateDoc } from "@firebase/firestore";
 
 initializeApp(config);

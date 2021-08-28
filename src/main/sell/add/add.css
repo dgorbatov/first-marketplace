@@ -57,11 +57,11 @@
   border: 0px;
 }
 
-.light-add input, .light-add textarea {
+.light-add input, .light-add textarea, .light-add select {
   background-color: #dbdbdb;
 }
 
-.dark-add input, .dark-add textarea {
+.dark-add input, .dark-add textarea, .dark-add select {
   background-color: #C4C4C4;
 }
 
@@ -69,6 +69,17 @@
   height: 2.5vw;
   width: 45vw;
   margin-top: 3vh;
+}
+
+.add .currency-input input {
+  width: 30vw;
+}
+
+.add .currency-input select{
+  width: 12vw;
+  height: 2.5vw;
+  border: 0px;
+  margin-right: 3vw;
 }
 
 .add .add-listing-centered textarea {

@@ -40,6 +40,7 @@
   height: 9vh;
   width: 12vw;
   font-size: 1.4vw;
+  cursor: pointer;
 }
 
 .info .select-info {
@@ -61,6 +62,8 @@
   font-size: 1.4vw;
   margin-left: 0vw;
   width: 30.3vw;
+  cursor: pointer !important;
+
 }
 
 .info select {
@@ -93,4 +96,5 @@
   margin: 0;
   padding: 0;
   width: 5vw;
+  cursor: pointer;
 }

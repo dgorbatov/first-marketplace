@@ -21,6 +21,7 @@
   margin-left: 2vw;
   text-decoration: none;
   color: black;
+  cursor: pointer;
 }
 
 .footer img {
@@ -35,6 +36,7 @@
 .icons img {
   width: 4vw;
   margin: 2vw;
+  cursor: pointer;
 }
 
 .footer > section > *:hover {

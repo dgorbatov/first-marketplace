@@ -93,12 +93,12 @@ function Item(props) {
             <h1 className="item-wrap" >{gotListing.basicinfo.name}</h1>
             <p className="item-wrap" ><strong>Location:</strong> {gotListing.basicinfo.city + (gotListing.basicinfo.country !== undefined && ( " - " + gotListing.basicinfo.country))}</p>
             <p>
-                <strong>Price:</strong> ${gotListing.basicinfo.price}
+                <strong>Price:</strong> {gotListing.basicinfo.currency + gotListing.basicinfo.price}
                 {gotListing.shipping.shippingCost !== "" &&
-                ("+ $" + gotListing.shipping.shippingCost + " shipping")}
+                ("+ " + gotListing.basicinfo.currency + gotListing.shipping.shippingCost + " shipping")}
             </p>
             <p className="item-wrap" ><strong>Condition: </strong>{gotListing.tags.condition}</p>
-            <p className="item-wrap" ><strong>Completion: </strong>{gotListing.tags.comp}</p>
+            <p className="item-wrap" ><strong>Competition: </strong>{gotListing.tags.comp}</p>
             {gotListing.tags.brand !== "Other" && <p className="item-wrap" ><strong>Vendor: </strong>{gotListing.tags.brand}</p>}
 
             {gotListing.basicinfo.quantity !== undefined && <p><strong>Quantity:</strong> {gotListing.basicinfo.quantity}</p>}

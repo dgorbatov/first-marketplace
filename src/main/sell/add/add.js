@@ -39,6 +39,7 @@ function Add(props) {
   const [editPictures, setEditPictures] = useState([]);
   const [newPics, setNewPics] = useState(false);
   const [picArr, setPicArr] = useState([]);
+  const [currency, setCurrency] = useState("$");
 
   useState(async () => {
     if (id !== "new") {
@@ -65,6 +66,7 @@ function Add(props) {
         price.current.value = data.basicinfo.price;
         email.current.value = data.basicinfo.email;
         description.current.value = data.basicinfo.description;
+        setCurrency(data.basicinfo.currency);
 
         if (data.basicinfo.quantity !== undefined)
           quantity.current.value = data.basicinfo.quantity;
@@ -118,7 +120,8 @@ function Add(props) {
         email: email.current.value,
         description: description.current.value,
         spec: spec.current.value,
-        quantity: quantity.current.value
+        quantity: quantity.current.value,
+        currency: currency
       },
       shipping : {
         delivery: delivery.current.checked,
@@ -176,7 +179,8 @@ function Add(props) {
         email: email.current.value,
         description: description.current.value,
         spec: spec.current.value,
-        quantity: quantity.current.value
+        quantity: quantity.current.value,
+        currency: currency
       },
       shipping : {
         delivery: delivery.current.checked,
@@ -241,7 +245,20 @@ function Add(props) {
               <input type="text" required placeholder="City*" ref={city}/>
               <input type="text" required placeholder="Country*" value={country}
                 onChange={val => setCountry(val.target.value)}/>
-              <input type="number" required placeholder="Price(USD)*" ref={price}/>
+              <section className="currency-input">
+                <select name="" value={currency} onChange={val => setCurrency(val.target.value)}>
+                  <option value="$">United States Dollars</option>
+                  <option value="€">Euro</option>
+                  <option value="£">United Kingdom Pounds</option>
+                  <option value="AU$">Australian dollar</option>
+                  <option value="CA$">Canadian dollar</option>
+                  <option value="CHf">Swiss franc</option>
+                  <option value="¥">Chinese renminbi</option>
+                  <option value="HK$">Hong Kong dollar</option>
+                  <option value="NZ$">New Zealand dollar</option>
+                </select>
+                <input type="number" required placeholder="Price*" ref={price} step="0.01" min="0.00"/>
+              </section>
               <input type="email" required placeholder="Email Address*" ref={email}/>
               <input type="url" placeholder="Original URL of Product" ref={url}/>
               <input type="number" placeholder="Quantity*" ref={quantity} min="1" required/>
