@@ -63,7 +63,7 @@ function Info() {
       },
       listings: [],
       country: country,
-      mode: "d"
+      mode: "l"
     });
 
     setLoading(false);

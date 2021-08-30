@@ -9,6 +9,7 @@
     "aos": "^3.0.0-beta.6",
     "dotenv": "^10.0.0",
     "firebase": "^9.0.0-beta.8",
+    "formik": "^2.2.9",
     "geofire-common": "^5.2.0",
     "google-maps": "^4.3.3",
     "history": "^4.10.1",

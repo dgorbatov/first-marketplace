@@ -9,7 +9,7 @@ import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import config from "../extra/config";
 
 initializeApp(config);
@@ -28,16 +28,20 @@ function Main() {
     onAuthStateChanged(auth, async user => {
       setUser(user);
       if (user) {
-        const docSnap = await getDoc(doc(db, "user-info", user.uid));
-
-        if (!docSnap.exists()) {
-          history.push("/ss/info")
-          return;
-        }
-        setUserData(docSnap.data());
-        setMode(docSnap.data().mode);
+        onSnapshot(doc(db, "user-info", user.uid), docSnap => {
+          setLoading(true);
+          if (!docSnap.exists()) {
+            history.push("/ss/info")
+            return;
+          }
+          setUserData(docSnap.data());
+          setMode(docSnap.data().mode);
+          setLoading(false);
+        }, err => {});
+        setLoading(false);
+      } else {
+        setLoading(false);
       }
-      setLoading(false);
     });
   }, [history]);
 
@@ -72,6 +76,8 @@ function Main() {
                    mode={userData !== null ? mode : "l"}
                    modeCallback={setMode}
                    uid={user ? user.uid : undefined}
+                   user={user}
+                   userData = {userData}
           />
         </Route>
 

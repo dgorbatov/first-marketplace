@@ -19,6 +19,7 @@ function Item(props) {
   const [idx, setIdx] = useState(0);
   const [contText, setContText] = useState("Contact Owner");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
 
@@ -27,13 +28,13 @@ function Item(props) {
       const docSnap = await getDoc(doc(db, "listings", id));
       if (!(docSnap.exists()))
         history.push("/error/404");
-
       else {
+
         if (docSnap.data().status !== "a") {
           if (docSnap.data().status === "r")
-            setGotListing("This Listing Was Removed");
+            setError("This Listing Was Removed");
           else
-            setGotListing("This Listing Was Sold");
+            setError("This Listing Was Sold");
         }
 
         let url = null;
@@ -131,7 +132,7 @@ function Item(props) {
 
         {
           gotListing.status !== "a" && typeof gotListing.status === "string" &&
-          <p className="item-error">{gotListing}</p>
+          <p className="item-error">{error}</p>
         }
       </div> }
     </div>

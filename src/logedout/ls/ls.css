@@ -11,6 +11,14 @@
   align-items: center;
 }
 
+.ls .password-reset {
+  position: absolute;
+  bottom: 29vh;
+  font-style: italic;
+  font-size: 1vw;
+  cursor: pointer;
+}
+
 .ls > article {
   background-color:#C4C4C4;
   height: 80vh;
@@ -71,7 +79,9 @@
   margin: 3vh;
 }
 
-.ls-button-section {
+.ls .ls-button-section {
+  position: absolute;
+  bottom: 20vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -86,6 +96,7 @@
   height: 7vh;
   width: 10vw;
   font-size: 1vw;
+  border-radius: 10px;
 }
 
 .ls > article section > section {
@@ -116,4 +127,8 @@
 .ls > article section > section:nth-child(4) {
   background-color: #51D600;
   margin-bottom: 8vh;
+}
+
+.ls button {
+  cursor: pointer;
 }

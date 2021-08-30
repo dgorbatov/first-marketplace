@@ -1,6 +1,6 @@
 import "./ls.css";
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
-import { signInWithPopup, getAuth, GoogleAuthProvider, GithubAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
+import { signInWithPopup, getAuth, GoogleAuthProvider, GithubAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail   } from "firebase/auth";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { initializeApp } from "firebase/app";
@@ -14,6 +14,7 @@ function LS() {
   const [emailLog, setEmailLog ] = useState(false);
   const [incorrectPassword, setIncorrectPassword ] = useState(false);
   const [formValue, setFormValue] = useState({email: "", password: ""});
+  const [reset, setReset] = useState(false);
 
   function signInWithGoogle() {
     signInWithPopup(auth, new GoogleAuthProvider())
@@ -53,7 +54,10 @@ function LS() {
 
   function signInWithEmail(form) {
     form.preventDefault();
-    if (window.location.href === "/ss/ls/login") {
+    if (reset) {
+      sendPasswordResetEmail(auth, formValue.email);
+      setReset(false);
+    } else if (window.location.href === "/ss/ls/login") {
       logInWithEmail();
     } else {
       createUserWithEmailAndPassword(auth, formValue.email, formValue.password)
@@ -135,12 +139,15 @@ function LS() {
                 <input type="email" required value={formValue.email} placeholder="Email"
                         onChange={(value) => setFormValue({email: value.target.value,
                           password: formValue.password})}/>
-                <input type="password" required value={formValue.password}
+                { !reset && <input type="password" required value={formValue.password}
                        placeholder="Password" minLength="7"
                         onChange={(value) => setFormValue({email: formValue.email,
-                          password: value.target.value})}/>
+                          password: value.target.value})}/> }
 
                 {incorrectPassword && <p>Invalid Password</p>}
+
+                {!reset && !incorrectPassword && <p onClick={() => setReset(true)} className="password-reset">Reset Password</p>}
+                {reset && !incorrectPassword && <p onClick={() => setReset(false)} className="password-reset">Back to Login</p>}
 
                 <article className="ls-button-section">
                   <button onClick={() => {setEmailLog(false);}}>Back</button>
