@@ -4,18 +4,11 @@
   align-items: center;
 }
 
-.menu > p {
-  font-size: 2vw;
-}
-
 .menu .listing-sell {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 55vw;
-  height: 10vh;
-  margin-bottom: 10vh;
 }
 
 .light-menu .listing-sell {
@@ -28,11 +21,10 @@
   box-shadow: 1vw 1vh #7289DA;
 }
 
+
 .menu .listing-sell p, .menu .link-listing-sell {
-  font-size: 1.4vw;
   color: black;
   text-decoration: none;
-  margin-left: 1vw;
 }
 
 .menu .listing-sell article {
@@ -48,12 +40,6 @@
   cursor: pointer;
 }
 
-.menu .sell-add-button {
-  position: fixed;
-  top: 88vh;
-  left: 93vw;
-}
-
 .light-menu .sell-add-button {
   color: rgb(107, 107, 107);
 }
@@ -66,4 +52,64 @@
   color: rgb(190, 0, 0);
   margin: 0;
   margin-bottom: 1vh;
+}
+
+@media only screen and (max-width: 550px) {
+  .menu .listing-sell {
+    width: 93vw;
+    height: 10vh;
+    margin-bottom: 6vh;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .menu > p {
+    font-size: 3vh;
+  }
+
+  .menu .listing-sell p {
+    font-size: 2vh;
+    margin: 0px !important;
+  }
+
+  .menu .listing-sell article {
+    width: 50vw;
+    margin-top: 1vh;
+  }
+
+  .menu .link-listing-sell {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+
+  .menu .sell-add-button {
+    position: fixed;
+    top: 88vh;
+    left: 79vw;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .menu .listing-sell {
+    width: 55vw;
+    height: 10vh;
+    margin-bottom: 10vh;
+  }
+
+  .menu > p {
+    font-size: 2vw;
+  }
+
+  .menu .listing-sell p, .menu .link-listing-sell {
+    font-size: 1.4vw;
+
+    margin-left: 1vw;
+  }
+  .menu .sell-add-button {
+    position: fixed;
+    top: 88vh;
+    left: 93vw;
+  }
 }

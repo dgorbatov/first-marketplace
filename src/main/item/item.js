@@ -20,6 +20,8 @@ function Item(props) {
   const [contText, setContText] = useState("Contact Owner");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [team, setTeam] = useState(null);
+
 
   useEffect(() => {
 
@@ -29,20 +31,25 @@ function Item(props) {
       if (!(docSnap.exists()))
         history.push("/error/404");
       else {
-
         if (docSnap.data().status !== "a") {
           if (docSnap.data().status === "r")
             setError("This Listing Was Removed");
           else
             setError("This Listing Was Sold");
+        } else {
+          const docSnap2 = await getDoc(doc(db, "user-info/" + docSnap.data().uid + "/profile/info"));
+
+          if (docSnap2.exists()) {
+            setTeam(docSnap2.data());
+          }
+
+          let url = null;
+          if (docSnap.data()["picture_urls"][0] !== undefined)
+            url = docSnap.data()["picture_urls"][0];
+
+          setPictureUrl(url)
+          setGotListing(docSnap.data());
         }
-
-        let url = null;
-        if (docSnap.data()["picture_urls"][0] !== undefined)
-          url = docSnap.data()["picture_urls"][0];
-
-        setPictureUrl(url)
-        setGotListing(docSnap.data());
       }
       setLoading(false);
     }
@@ -75,6 +82,11 @@ function Item(props) {
 
   function contact() {
     const user = auth.currentUser;
+
+    if (contText === "Please Sign In") {
+      window.location.href = "/ss/ls/login";
+    }
+
     setContText("Contact Owner");
 
     if (!user) {
@@ -110,6 +122,11 @@ function Item(props) {
             {gotListing.url !== "" && <a href={gotListing.url} className="item-link"><strong>Original Product</strong></a>}
             <p className="item-wrap"><strong>Description:</strong> {gotListing.basicinfo.description}</p>
             {gotListing.basicinfo.spec !== "" && <p className="item-wrap" ><strong>Spec:</strong> {gotListing.basicinfo.spec}</p>}
+
+            {team !== null && <div className="team">
+              <img src={team.pfp} alt="User PFP"/>
+              <p>{team.name}</p>
+            </div>}
           </section>
         }
 

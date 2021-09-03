@@ -99,10 +99,6 @@ function LS() {
                 <p>Google</p>
               </section>
 
-              <section>
-                <p>Twitter</p>
-              </section>
-
               <section onClick={() => { signInWithGithub(); }}>
                 <p>Github</p>
               </section>

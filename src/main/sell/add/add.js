@@ -242,7 +242,7 @@ function Add(props) {
           <form onSubmit={handleSubmit}>
             <section className="add-listing-centered">
               <input type="text" required placeholder="Product Name*" ref={name}/>
-              <input type="text" required placeholder="City*" ref={city}/>
+              <input type="text" required placeholder="City/State*" ref={city}/>
               <input type="text" required placeholder="Country*" value={country}
                 onChange={val => setCountry(val.target.value)}/>
               <section className="currency-input">

@@ -12,12 +12,9 @@
 }
 
 .buy .listing-buy {
-  width: 70vw;
-  height: 35vh;
   display: flex;
   padding-left: 1vw;
   padding-right: 1vw;
-  display: flex;
   justify-content: space-around;
   align-items: center;
   color: black;
@@ -30,13 +27,6 @@
   border-radius: 7px;
 }
 
-.light-buy .comp-img {
-  height: 6vh;
-  position: absolute;
-  margin-top: 1.4vh;
-  margin-left: 0.4vh;
-}
-
 .dark-buy .listing-buy {
   background-color: #939393;
   box-shadow: 1vw 1vh #7289DA;
@@ -47,12 +37,6 @@
   opacity: 0.9;
 }
 
-.buy .listing-buy img {
-  height: 30vh;
-  min-width: 10vh;
-  max-width: 40vh;
-  border-radius: 35px;
-}
 
 .buy .listing-buy > article {
   display: flex;
@@ -64,27 +48,113 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 8vh;
 }
 
 .buy .buy-top {
-  min-height: 10vh;
-  max-height: 10vh;
-  height: auto;
-  max-width: 50vw;
-  min-width: 20vw;
-  width: 60vw;
   text-overflow: ellipsis;
   overflow-x: hidden !important;
 }
 
-.light-buy .buy-top h1 {
-  margin-right: 2vw;
+@media only screen and (max-width: 550px) {
+  .buy .listing-buy {
+    width: 90vw;
+    height: 20vh;
+    flex-direction: row-reverse;
+  }
+
+  .buy .listing-buy img {
+    height: 15vh;
+    min-width: 10vh;
+    max-width: 30vh;
+    border-radius: 35px;
+  }
+
+  .buy .buy-top {
+    height: auto !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .buy .buy-top .condition {
+    font-weight: normal;
+    font-size: 2vh;
+  }
+
+  .buy .buy-top .price {
+    font-weight: normal;
+    font-size: 1.8vh;
+  }
+
+  .buy .listing-buy section {
+    height: auto;
+  }
+
+  .buy .listing-buy section h1 {
+    font-size: 2.5vh;
+    text-overflow: clip;
+    margin-bottom: 1vh;
+    margin-top: 0px;
+  }
+
+  .buy .listing-buy section .description {
+    display: none;
+  }
+
+  .buy .listing-buy section .location {
+    font-size: 1.4vh;
+    text-overflow: ellipsis;
+  }
+
+  .light-buy .comp-img {
+    height: 1vh;
+    width: 1vh;
+    position: absolute;
+    margin-top: 1vh;
+    margin-left: 1vh;
+    border-radius: 100%;
+  }
 }
 
-.buy .listing-buy section h1 {
-  font-size: 200%;
-  text-overflow: clip;
+@media only screen and (min-width: 550px) {
+  .buy .listing-buy {
+    width: 70vw;
+    height: 35vh;
+  }
+
+  .buy .listing-buy img {
+    height: 30vh;
+    min-width: 10vh;
+    max-width: 40vh;
+    border-radius: 35px;
+  }
+
+  .buy .listing-buy section h1 {
+    font-size: 200%;
+    text-overflow: clip;
+    margin-right: 2vw;
+  }
+
+  .buy .listing-buy section {
+    height: 8vh;
+  }
+
+  .buy .buy-top {
+    min-height: 10vh;
+    max-height: 10vh;
+    height: auto;
+    max-width: 50vw;
+    min-width: 20vw;
+    width: 60vw;
+  }
+
+  .light-buy .comp-img {
+    height: 2vh;
+    width: 2vh;
+    position: absolute;
+    margin-top: 1.4vh;
+    margin-left: 1.4vh;
+    border-radius: 100%;
+  }
 }
 
 .buy .listing-buy .buy-tag {
@@ -121,7 +191,7 @@
   overflow-x: hidden;
 }
 
-@media only screen and (max-width: 1525px) {
+@media only screen and (min-width: 550px) and (max-width: 1525px) {
   .buy .listing-buy section h1 {
     font-size: 1.5vw;
   }

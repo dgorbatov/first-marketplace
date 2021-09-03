@@ -72,13 +72,6 @@
   font-size: 1.3vh;
 }
 
-.navbar-main .links-main {
-  width: 24.3vw;
-  height: 3vw;
-  margin-top: 5vh;
-  font-size: 1vw;
-}
-
 .navbar-main article {
   display: flex;
   align-items: center;
@@ -129,4 +122,71 @@
 
 .navbar-main .link-main:hover {
   opacity: 0.7;
+}
+
+@media only screen and (max-width: 550px) {
+  .navbar-main .links-main {
+    display: none;
+  }
+
+  .navbar-main .search input {
+    width: 65vw;
+    margin-left: 0px;
+  }
+
+  .navbar-main .link-main {
+    font-size: 5vw;
+    width: 80vw;
+  }
+
+  .navbar-main .menu-nav {
+    margin-left: 4vw;
+    margin-right: 4vw;
+  }
+
+  .navbar-main {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-main .search-desktop {
+    display: none;
+  }
+
+  .navbar-main .exit {
+    opacity: 0.7;
+  }
+
+  .navbar-main .nav-menu {
+    position: fixed;
+    top: 8vh;
+    left: 5vw;
+    height: 80vh;
+    background-color: #b1b1b1;
+    width: 90vw;
+    z-index: 10;
+  }
+
+  .navbar-main .nav-menu .link-nav-main {
+    font-size: 4vh;
+    width: 50vw;
+    margin-top: 5vh;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .navbar-main .links-main {
+    width: 24.3vw;
+    height: 3vw;
+    margin-top: 5vh;
+    font-size: 1vw;
+  }
+
+  .navbar-main .menu-nav {
+    display: none;
+  }
+
+  .navbar-main .search-mobile {
+    display: none;
+  }
 }

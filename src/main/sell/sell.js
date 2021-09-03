@@ -18,7 +18,7 @@ function Sell(props) {
       {props.user &&
       <Switch>
         <Route path="/ms/sell/menu" exact>
-          <Menu uid={props.user.uid} listings={props.data.listings} mode={props.mode}/>
+          <Menu uid={props.user.uid} listings={props.data !== null ? props.data.listings : []} mode={props.mode}/>
         </Route>
 
         <Route path="/ms/sell/sell-item/:id" exact>

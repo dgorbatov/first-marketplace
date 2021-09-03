@@ -81,14 +81,14 @@ function Main(props) {
         <p>Current Listings</p>
         <p className="sell-menu-err">{error}</p>
         {
-          listings.map((listing) => (
+          listings.map((listing, index) => (
             <section className="listing-sell" key={listing[0]}>
               <p>{listing[1].basicinfo.name} - {getDate(listing[1]["create-time"].toDate())}</p>
               <article>
                 <Link to={"/ms/item/" + listing[0]} className="link-listing-sell">View</Link>
                 <Link to={"/ms/sell/sell-item/" + listing[0]} className="link-listing-sell">Edit</Link>
-                <p onClick={() => {updateListing(listing[0], "r")}}>Remove</p>
-                <p onClick={() => {updateListing(listing[0], "s")}}>Sold</p>
+                <p className="link-listing-sell" onClick={() => {updateListing(listing[0], "r")}}>Remove</p>
+                <p className="link-listing-sell"onClick={() => {updateListing(listing[0], "s")}}>Sold</p>
               </article>
             </section>
           ))

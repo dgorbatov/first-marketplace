@@ -5,9 +5,6 @@ import { useCallback, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, onSnapshot, collection } from "firebase/firestore";
 import { Icon } from '@iconify/react';
-import FLL from "../../assets/fll.png";
-import FTC from "../../assets/ftc.png";
-import FRC from "../../assets/frc.png";
 
 initializeApp(config);
 const db = getFirestore();
@@ -123,24 +120,24 @@ function Buy(props) {
         { props.mode === "l" ?
           listings.map((listing, index) => (
             <Link className="buy-link" key={index} to={"/ms/item/" + listing.key}>
-              {listing.comp === "FLL" && <img src={FLL} alt="FLL Logo" className="comp-img"/>}
-              {listing.comp === "FTC" && <img src={FTC} alt="FLL Logo" className="comp-img"/>}
-              {listing.comp === "FRC" && <img src={FRC} alt="FLL Logo" className="comp-img"/>}
+              {listing.comp === "FLL" && <div className="comp-img" style={{ "backgroundColor": "#CE4747" }}/>}
+              {listing.comp === "FTC" && <div className="comp-img" style={{ "backgroundColor": "#D87E3D" }}/>}
+              {listing.comp === "FRC" && <div className="comp-img" style={{ "backgroundColor": "#2492E2" }}/>}
 
               <article className="listing-buy">
                 <article>
                   <section className="buy-top">
                     <h1>{listing.name}</h1>
-                    <h1>{listing.condition}</h1>
-                    <h1>{listing.currency + listing.price}</h1>
+                    <h1 className="condition">{listing.condition}</h1>
+                    <h1 className="price">{listing.currency + listing.price}</h1>
                   </section>
 
                   <section>
-                    <h2>{listing.city + (listing.country !== undefined ? " - " + listing.country : "")}</h2>
+                    <h2 className="location">{listing.city + (listing.country !== undefined ? " - " + listing.country : "")}</h2>
                   </section>
 
                   <section>
-                    <p>{ listing.description }</p>
+                    <p className="description">{ listing.description }</p>
                   </section>
                 </article>
 

@@ -67,13 +67,12 @@
   display: inline
 }
 
-
 .account .settings {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  width: 70vw;
+  width: 58vw;
   height: 85vh;
   border-radius: 30px;
 }
@@ -90,13 +89,13 @@
 .account .settings h1 {
   font-weight: bold;
   font-size: 2.5vw;
-  margin-left: 5vw;
+  margin-left: 3vw;
 }
 
 .account .settings h2 {
   font-weight: normal;
   font-size: 2vw;
-  margin-left: 10vw;
+  margin-left: 8vw;
 }
 
 .account .settings section {
@@ -142,6 +141,7 @@
   margin-left: 2vw;
   height: 4vh;
   width: 20vw;
+  padding-left: 0.5vw;
 }
 
 .account input::placeholder {
@@ -171,23 +171,59 @@
 }
 
 .settings > button {
-  font-size: 1.5vw;
+  font-size: 1vw;
   position: absolute;
   bottom: 10vh;
   background-color: #E3E3E3;
   border: 0px;
-  right: 20vw;
-  height: 9vh;
-  padding-left: 2vw;
-  padding-right: 2vw;
+  right: 25vw;
+  height: 7vh;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
   border-radius: 18px;
   cursor: pointer;
 }
 
 .settings .save-changes {
-  right: 4vw;
+  right: 13vw;
 }
 
 .settings button:hover {
   opacity: 0.8;
+}
+
+.account .links {
+  display: flex;
+  flex-direction: column;
+  width: 6vw;
+}
+
+.account .links article {
+  height: 10vh;
+}
+
+.account .links p {
+  font-size: 1vw;
+  cursor: pointer;
+}
+
+.light-account .links hr {
+  border: 2px solid #F1965E;
+}
+
+.dark-account .links hr {
+  border: 2px solid #7289DA;
+}
+
+.account .pt h2 {
+  font-size: 1.5vw;
+}
+
+.account .pt p {
+  display: inline;
+  font-size: 1.0vw;
+}
+
+.account .pt input::placeholder {
+  font-size: 0.8vw;
 }

@@ -20,10 +20,6 @@
 }
 
 .item {
-  width: 70vw;
-  min-height: 80vh;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
   border-radius: 39px;
   display: flex;
   justify-content: space-evenly;
@@ -54,11 +50,6 @@
   text-align: center;
 }
 
-.item section {
-  width: 30vw;
-  min-height: 80vh;
-}
-
 .item article {
   height: 40vh;
   display: flex;
@@ -66,20 +57,68 @@
   justify-content: center;
 }
 
-.item h1 {
-  font-size: 2.4vw;
-}
-
-.item p {
-  font-size: 1.8vw;
-  color: black;
-}
 
 .item img {
-  width: 20vw;
   border-radius: 15px;
-  max-height: 45vh;
   object-fit: cover;
+}
+
+@media only screen and (max-width: 550px) {
+  .item {
+    width: 95vw;
+    min-height: 80vh;
+    margin-top: 2vh;
+    margin-bottom: 5vh;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .item section {
+    width: auto;
+  }
+
+  .item h1 {
+    font-size: 3vh;
+  }
+
+  .item p {
+    font-size: 1.8vh;
+    color: black;
+  }
+
+  .item img {
+    width: 50vw;
+    max-height: 45vh;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .item {
+    width: 70vw;
+    min-height: 80vh;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+  }
+
+
+  .item section {
+    width: 30vw;
+    min-height: 80vh;
+  }
+
+  .item h1 {
+    font-size: 2.4vw;
+  }
+
+  .item p {
+    font-size: 1.8vw;
+    color: black;
+  }
+
+  .item img {
+    width: 20vw;
+    max-height: 45vh;
+  }
 }
 
 .item article button {
@@ -146,4 +185,17 @@
 .item .item-wrap {
   max-width: 20vw;
   word-wrap: break-word;
+}
+
+.item .team {
+  display: flex;
+  width: 20vw;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.item .team img {
+  width: 4vw;
+  height: 4vw;
+  margin-right: 2vw;
 }
