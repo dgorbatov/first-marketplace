@@ -133,9 +133,9 @@ function Account(props) {
 
             <section>
               <h2>Num Team Members:</h2>
-              <button onClick={() => setNumTeam(numTeam - 1)}>-</button>
+              <button onClick={() => setNumTeam(numTeam - 1)}><p>-</p></button>
               <p>{numTeam}</p>
-              <button onClick={() => setNumTeam(numTeam + 1)}>+</button>
+              <button onClick={() => setNumTeam(numTeam + 1)}><p>+</p></button>
             </section>
 
             <section>

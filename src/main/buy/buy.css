@@ -37,6 +37,9 @@
   opacity: 0.9;
 }
 
+.dark-buy > section > h1 {
+  color: white;
+}
 
 .buy .listing-buy > article {
   display: flex;

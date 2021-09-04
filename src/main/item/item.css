@@ -14,11 +14,6 @@
   background-color: #3E3E3E;
 }
 
-.item a {
-  color: black;
-  font-size: 2vw;
-}
-
 .item {
   border-radius: 39px;
   display: flex;
@@ -57,7 +52,6 @@
   justify-content: center;
 }
 
-
 .item img {
   border-radius: 15px;
   object-fit: cover;
@@ -71,6 +65,7 @@
     margin-bottom: 5vh;
     flex-direction: column-reverse;
     align-items: center;
+    padding-bottom: 3vh;
   }
 
   .item section {
@@ -82,13 +77,59 @@
   }
 
   .item p {
-    font-size: 1.8vh;
+    font-size: 2vh;
     color: black;
   }
 
   .item img {
-    width: 50vw;
+    width: 40vw;
     max-height: 45vh;
+  }
+
+  .item article {
+    height: 35vh;
+    align-self: center;
+  }
+
+  .item .item-wrap {
+    max-width: 70vw;
+    word-wrap: break-word;
+  }
+
+  .item .item-contact p {
+    font-size: 1.5vh;
+  }
+
+
+  .item a {
+    color: black;
+    font-size: 2vh;
+  }
+
+  .item .item-contact {
+    width: 30vw;
+    border: 0px;
+    border-radius: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: flex-end;
+    align-self: center;
+    position: fixed;
+    bottom: 6vh;
+    right: 8vw;
+  }
+
+  .item .item-right {
+    width: 40vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .item .team {
+    max-width: 40vw;
   }
 }
 
@@ -119,6 +160,44 @@
     width: 20vw;
     max-height: 45vh;
   }
+
+  .item .item-wrap {
+    max-width: 20vw;
+    word-wrap: break-word;
+  }
+
+  .item .item-contact p {
+    font-size: 2vw;
+  }
+
+
+  .item a {
+    color: black;
+    font-size: 2vw;
+  }
+
+  .item .item-contact {
+    width: 18vw;
+    border: 0px;
+    border-radius: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: flex-end;
+  }
+
+  .item .item-right {
+    width: 20vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 5vw;
+  }
+
+  .item .team {
+    width: 20vw;
+  }
 }
 
 .item article button {
@@ -147,16 +226,6 @@
   }
 }
 
-.item .item-contact {
-  width: 18vw;
-  border: 0px;
-  border-radius: 26px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  justify-self: flex-end;
-}
-
 .light-item .item .item-contact {
   background-color: #63E100;
 }
@@ -169,27 +238,8 @@
   opacity: 0.8;
 }
 
-.item .item-contact p {
-  font-size: 2vw;
-}
-
-.item .item-right {
-  width: 20vw;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
-  margin-left: 5vw;
-}
-
-.item .item-wrap {
-  max-width: 20vw;
-  word-wrap: break-word;
-}
-
 .item .team {
   display: flex;
-  width: 20vw;
   justify-content: flex-start;
   align-items: center;
 }

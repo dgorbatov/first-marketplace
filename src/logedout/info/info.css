@@ -13,13 +13,10 @@
 
 .info {
   text-align: center;
-  font-size: 1vw;
 }
 
 .info > article {
   background-color:#C4C4C4;
-  height: 90vh;
-  width: 50vw;
   border-radius: 4%;
   display: flex;
   align-items: space-evenly;
@@ -28,7 +25,6 @@
 
 .info section {
   display: flex;
-  height: 60vh;
   justify-content: space-evenly;
   flex-direction: column;
   align-items: center;
@@ -37,45 +33,15 @@
 .info button {
   background-color: #63E100;
   border: 0px;
-  height: 9vh;
-  width: 12vw;
-  font-size: 1.4vw;
   cursor: pointer;
 }
 
-.info .select-info {
-  height: 3vh;
-  width: 30.5vw;
-  padding: 0;
-  margin-bottom: 5vh;
-}
-
 .info input, .info select, .info .share-location {
-  height: 6vh;
   border: 0px;
-  width: 30vw;
 }
 
-
-.info .share-location {
-  background-color: white;
-  font-size: 1.4vw;
-  margin-left: 0vw;
-  width: 30.3vw;
-  cursor: pointer !important;
-
-}
-
-.info select {
-  width: 30.3vw;
-}
-
-.info h1 {
-  font-size: 2.7vw;
-}
-
-.info button:hover {
-  opacity: 0.7;
+.info .select-info {
+  padding: 0;
 }
 
 .info .privacy-policy-info {
@@ -84,17 +50,131 @@
   justify-content: center;
   align-items: center;
   margin: 0px;
-  height: 8vh;
-  width: 30vw;
 }
 
-.info input[type="checkbox"] {
-  -ms-transform: scale(0.5); /* IE */
-  -moz-transform: scale(0.5); /* FF */
-  -webkit-transform: scale(0.5); /* Safari and Chrome */
-  -o-transform: scale(0.5); /* Opera */
-  margin: 0;
-  padding: 0;
-  width: 5vw;
-  cursor: pointer;
+@media only screen and (max-width: 550px) {
+  .info > article {
+    height: 93vh;
+    width: 95vw;
+  }
+
+  .info input, .info select, .info .share-location {
+    height: 6vh;
+    width: 70vw;
+  }
+
+  .info *::placeholder {
+    font-size: 1.5vh;
+  }
+
+  .info {
+    font-size: 2.3vh;
+  }
+
+
+  .info h1 {
+    font-size: 3vh;
+  }
+
+  .info section {
+    height: 70vh;
+  }
+
+  .info .select-info {
+    height: 3vh;
+    width: 73vw;
+    margin-bottom: 4vh;
+  }
+
+  .info .privacy-policy-info {
+    height: 8vh;
+    width: 80vw;
+  }
+
+  .info input[type="checkbox"] {
+    -ms-transform: scale(1); /* IE */
+    -moz-transform: scale(1); /* FF */
+    -webkit-transform: scale(1); /* Safari and Chrome */
+    -o-transform: scale(1); /* Opera */
+    margin: 0;
+    padding: 0;
+    width: 5vw;
+    cursor: pointer;
+    margin-right: 2vw;
+  }
+
+  .info button {
+    height: 7vh;
+    width: 60vw;
+    font-size: 2.3vh;
+  }
+
+  .info .info-states {
+    width: 71vw;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .info > article {
+    height: 90vh;
+    width: 50vw;
+  }
+
+  .info input, .info select, .info .share-location {
+    height: 6vh;
+    width: 30vw;
+  }
+
+  .info {
+    font-size: 1vw;
+  }
+
+  .info h1 {
+    font-size: 2.7vw;
+  }
+
+  .info section {
+    height: 64vh;
+  }
+
+  .info .select-info {
+    height: 3vh;
+    width: 30.5vw;
+    margin-bottom: 5vh;
+  }
+
+  .info .privacy-policy-info {
+    height: 8vh;
+    width: 30vw;
+  }
+
+  .info input[type="checkbox"] {
+    -ms-transform: scale(0.5); /* IE */
+    -moz-transform: scale(0.5); /* FF */
+    -webkit-transform: scale(0.5); /* Safari and Chrome */
+    -o-transform: scale(0.5); /* Opera */
+    margin: 0;
+    padding: 0;
+    width: 5vw;
+    cursor: pointer;
+  }
+
+  .info button {
+    height: 9vh;
+    width: 12vw;
+    font-size: 1.4vw;
+  }
+
+  .info .info-states {
+    margin-top: 0.2vh;
+    margin-bottom: 0.2vh;
+  }
+}
+
+.info select {
+  width: 30.3vw;
+}
+
+.info button:hover {
+  opacity: 0.7;
 }

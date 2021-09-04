@@ -10,7 +10,7 @@ import { getAuth } from "firebase/auth";
 initializeApp(config);
 const db = getFirestore();
 const auth = getAuth();
-
+const style1 = {    "padding-bottom" : "8vh"};
 function Item(props) {
   const history = useHistory();
   const { id } = useParams();
@@ -100,7 +100,8 @@ function Item(props) {
     <div className={props.mode === "l" ? "outer-item light-item" : "outer-item dark-item"}>
       {loading ? <Icon icon="eos-icons:bubble-loading" height="30vh" width="30vw" className="loading"/>
       :
-      <div className="item">
+      <div className="item"
+        style={team === null ? style1 : {}}>
         { gotListing.status === "a" &&
           <section>
             <h1 className="item-wrap" >{gotListing.basicinfo.name}</h1>

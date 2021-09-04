@@ -11,18 +11,8 @@
   align-items: center;
 }
 
-.ls .password-reset {
-  position: absolute;
-  bottom: 29vh;
-  font-style: italic;
-  font-size: 1vw;
-  cursor: pointer;
-}
-
 .ls > article {
   background-color:#C4C4C4;
-  height: 80vh;
-  width: 30vw;
   border-radius: 4%;
 }
 
@@ -32,31 +22,25 @@
   align-items: center;
 }
 
-.ls h1 {
-  font-size: 2vw;
-  margin-top: 6vh;
-}
-
 .login-link {
-  font-size: 1.8vw;
   color: black;
   text-decoration: none;
   position: relative;
-  top: 13vh;
-}
-
-.login-link:hover {
-  opacity: 0.8;
 }
 
 .ls > article section > section {
-  height: 8vh;
-  width: 20vw;
   border-radius: 2%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2vh;
+}
+
+.ls > article section > section > p {
+  font-weight: 400;
+}
+
+.login-link:hover {
+  opacity: 0.8;
 }
 
 .ls form {
@@ -75,30 +59,132 @@
 }
 
 .ls input {
-  height: 4vw;
   border: 0px;
-  width: 25vw;
-  margin: 3vh;
 }
 
 .ls .ls-button-section {
   position: absolute;
-  bottom: 20vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 25vw;
-  height: 10vh;
-  margin-top: 3vh;
 }
 
 .ls button {
   background-color: #63E100;
   border: 0px;
-  height: 7vh;
-  width: 10vw;
-  font-size: 1vw;
   border-radius: 10px;
+}
+
+.ls .password-reset {
+  position: absolute;
+  font-style: italic;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 550px) {
+  .ls > article {
+    height: 85vh;
+    width: 95vw;
+  }
+
+  .ls h1 {
+    font-size: 4vh;
+    margin-top: 6vh;
+  }
+
+  .login-link {
+    font-size: 3vh;
+    top: 7vh;
+  }
+
+  .ls > article section > section {
+    height: 12vh;
+    width: 70vw;
+    margin-top: 2vh;
+  }
+
+  .ls > article section > section > p {
+    font-size: 3vh;
+  }
+
+  .ls input {
+    height: 8vh;
+    width: 70vw;
+    margin: 3vh;
+  }
+
+  .ls input::placeholder {
+    font-size: 2vh;
+  }
+
+  .ls button {
+    height: 8vh;
+    width: 30vw;
+    font-size: 2vh;
+  }
+
+  .ls .ls-button-section {
+    bottom: 20vh;
+    width: 70vw;
+    height: 10vh;
+    margin-top: 3vh;
+  }
+
+  .ls .password-reset {
+    bottom: 30vh;
+    font-size: 2.5vh;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .ls > article {
+    height: 80vh;
+    width: 30vw;
+  }
+
+  .ls h1 {
+    font-size: 2vw;
+    margin-top: 6vh;
+  }
+
+  .login-link {
+    font-size: 1.8vw;
+    top: 13vh;
+  }
+
+  .ls > article section > section {
+    height: 8vh;
+    width: 20vw;
+    margin-top: 2vh;
+  }
+
+  .ls > article section > section > p {
+    font-size: 1.5vw;
+  }
+
+  .ls input {
+    height: 4vw;
+    width: 25vw;
+    margin: 3vh;
+  }
+
+  .ls button {
+    height: 7vh;
+    width: 10vw;
+    font-size: 1vw;
+  }
+
+  .ls .ls-button-section {
+    bottom: 20vh;
+    width: 25vw;
+    height: 10vh;
+    margin-top: 3vh;
+  }
+
+  .ls .password-reset {
+    bottom: 29vh;
+    font-size: 1vw;
+  }
 }
 
 .ls > article section > section {
@@ -107,11 +193,6 @@
 
 .ls > article section > section:hover {
   opacity: 0.8;
-}
-
-.ls > article section > section > p {
-  font-size: 1.5vw;
-  font-weight: 400;
 }
 
 .ls > article section > section:nth-child(1) {

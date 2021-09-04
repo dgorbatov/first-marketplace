@@ -8,7 +8,7 @@ import { Icon } from '@iconify/react';
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
 import config from "../../extra/config";
-const geofire = require('geofire-common');
+import SelectUSState from 'react-select-us-states';
 
 initializeApp(config);
 const db = getFirestore();
@@ -21,13 +21,12 @@ function Info() {
   const [year, setYear ] = useState("");
   const [numMem, setNumMem ] = useState("");
   const [comp, setComp ] = useState("FLL");
-  const [position, setPosition ] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [country, setCountry] = useState('')
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("AL");
   const options = useMemo(() => countryList().getData(), [])
-
-  const [locationAccess, setLocationAccess ] = useState("na");
-  let history = useHistory();
+  const history = useHistory();
 
   onAuthStateChanged(auth, async user => {
     if (user) {
@@ -48,7 +47,9 @@ function Info() {
     setLoading(true);
 
     const user = auth.currentUser;
-    const hash = geofire.geohashForLocation([position.coords.latitude, position.coords.longitude]);
+    let state_new = "";
+    if (country !== "" && country.value === "US")
+      state_new = state;
 
     await setDoc(doc(db, "user-info", user.uid), {
       name: name,
@@ -56,14 +57,11 @@ function Info() {
       "num-mem": numMem,
       program: comp.label,
       "team-creation-year": year,
-      geohash: hash,
-      geopoint: {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      },
       listings: [],
       country: country,
-      mode: "l"
+      mode: "l",
+      city: city,
+      state: state_new
     });
 
     setLoading(false);
@@ -77,14 +75,17 @@ function Info() {
         <form onSubmit={addTeam}>
           <h1>Additional Team Information</h1>
             <section>
-              <input type="text" required placeholder="Team Name" value={name}
+              <input type="text" required placeholder="Team Name*" value={name}
                 onChange={(val) => { setName(val.target.value); }}/>
-              <input type="number" required placeholder="Team Number" value={num}
+              <input type="number" required placeholder="Team Number*" value={num}
                 onChange={(val) => { setNum(val.target.value); }}/>
-              <input type="number" required placeholder="Team Founding Year" value={year}
+              <input type="number" required placeholder="Team Founding Year*" value={year}
                 onChange={(val) => { setYear(val.target.value); }}/>
-              <input type="number" required placeholder="Number of Team Members" value={numMem}
+              <input type="number" required placeholder="Number of Team Members*" value={numMem}
                 onChange={(val) => { setNumMem(val.target.value); }}/>
+              <input type="text" required placeholder="City*" value={city}
+                onChange={(val) => { setCity(val.target.value); }}/>
+              { country !== "" && country.value === "US" && <SelectUSState className="info-states" onChange={val => setState(val)}/> }
               <Select className="select-info" options={options} value={country} onChange={value => {
                 setCountry(value)
               }} />
@@ -95,26 +96,12 @@ function Info() {
                 setComp(value)
               }} />
 
-              {/* <select value={comp} onChange={(val) => { setComp(val.target.value); }}>
-                <option value="FLL">FLL</option>
-                <option value="FTC">FTC</option>
-                <option value="FRC">FRC</option>
-              </select> */}
-
-              <button type="button" className="share-location"
-                onClick={() => {
-                  navigator.geolocation.getCurrentPosition((position) => { setLocationAccess("given");
-                                                                           setPosition(position); },
-                                                           () => { setLocationAccess("rejected"); });
-                }}>Share Location</button>
-
               <section className="privacy-policy-info">
                 <input type="checkbox" required/>
                 <p>I agree to the <Link to="/ss/privacypolicy">Privacy Policy</Link></p>
               </section>
             </section>
-            {(locationAccess === "rejected") && <p>Please Allow Access To Your Location</p>}
-          <button disabled={!(locationAccess === "given")}>Create Team</button>
+          <button>Create Team</button>
         </form>
       </article> }
     </div>
