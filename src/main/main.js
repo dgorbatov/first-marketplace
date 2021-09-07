@@ -4,6 +4,7 @@ import Account from "./account/account";
 import Sell from "./sell/sell";
 import Buy from "./buy/buy";
 import Item from "./item/item";
+import Team from "./team/team";
 import { Icon } from '@iconify/react';
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -80,6 +81,11 @@ function Main() {
                    userData = {userData}
           />
         </Route>
+
+        <Route path="/ms/team/:id" exact>
+          <Team />
+        </Route>
+
 
         <Route path="*" exact>
           <Redirect to="/error/404" />

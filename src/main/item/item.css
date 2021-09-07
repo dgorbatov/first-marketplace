@@ -6,6 +6,10 @@
   justify-content: center;
 }
 
+.item .item-link {
+  text-decoration: none;
+}
+
 .light-item {
   background-color: #dbdbdb;
 }

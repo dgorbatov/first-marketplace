@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 import { Icon } from '@iconify/react';
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 
 initializeApp(config);
@@ -21,7 +21,7 @@ function Item(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [team, setTeam] = useState(null);
-
+  const [uid, setUid] = useState("no-team");
 
   useEffect(() => {
 
@@ -41,6 +41,7 @@ function Item(props) {
 
           if (docSnap2.exists()) {
             setTeam(docSnap2.data());
+            setUid(docSnap.data().uid);
           }
 
           let url = null;
@@ -124,10 +125,13 @@ function Item(props) {
             <p className="item-wrap"><strong>Description:</strong> {gotListing.basicinfo.description}</p>
             {gotListing.basicinfo.spec !== "" && <p className="item-wrap" ><strong>Spec:</strong> {gotListing.basicinfo.spec}</p>}
 
-            {team !== null && <div className="team">
-              <img src={team.pfp} alt="User PFP"/>
-              <p>{team.name}</p>
-            </div>}
+            {team !== null && <Link to={"/ms/team/" + uid} className="item-link">
+              <div className="team">
+                <img src={team.pfp} alt="User PFP"/>
+                <p>{team.name}</p>
+              </div>
+            </Link>
+            }
           </section>
         }
 
