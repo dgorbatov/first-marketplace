@@ -1,0 +1,46 @@
+.team {
+  height: auto;
+}
+
+.team article {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-content: center;
+  height: auto;
+}
+
+.team .pfp img {
+  height: 20vh;
+  border-radius: 150px;
+}
+
+.team .pfp {
+  height: auto;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.team .pfp p {
+  font-size: 2vw;
+}
+
+.team .team-info-page {
+  height: 80vh;
+  width: 55vw;
+  background-color: #EEEEEE;
+  border-radius: 30px;
+  padding-left: 2vw;
+  margin-top: 3vh;
+}
+
+.team .team-info-page h1 {
+  font-size: 2vw;
+}
+.team .team-info-page p {
+  font-size: 1.5vw;
+  margin-left: 2vw;
+}
