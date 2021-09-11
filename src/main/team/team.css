@@ -2,19 +2,6 @@
   height: auto;
 }
 
-.team article {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-content: center;
-  height: auto;
-}
-
-.team .pfp img {
-  height: 20vh;
-  border-radius: 150px;
-}
-
 .team .pfp {
   height: auto;
   width: auto;
@@ -24,23 +11,93 @@
   flex-direction: column;
 }
 
-.team .pfp p {
-  font-size: 2vw;
-}
-
-.team .team-info-page {
-  height: 80vh;
-  width: 55vw;
+.light-main .team .team-info-page {
   background-color: #EEEEEE;
-  border-radius: 30px;
-  padding-left: 2vw;
-  margin-top: 3vh;
 }
 
-.team .team-info-page h1 {
-  font-size: 2vw;
+.dark-main .team .team-info-page {
+  background-color: #B9B9B9;
 }
-.team .team-info-page p {
-  font-size: 1.5vw;
-  margin-left: 2vw;
+
+.dark-main .team .team-info-page p {
+  color: black;
+}
+
+@media only screen and (max-width: 550px) {
+  .team article {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    height: inherit;
+  }
+
+  .team .pfp {
+    margin-top: 2vh;
+  }
+
+  .team .pfp img {
+    height: 20vh;
+    border-radius: 150px;
+  }
+
+  .team .pfp p {
+    font-size: 2.4vh;
+  }
+
+
+  .team .team-info-page {
+    height: 55vh;
+    width: 90vw;
+    border-radius: 30px;
+    padding-left: 2vw;
+    padding-top: 1vh;
+    margin-top: 3vh;
+    margin-left: 5vw;
+  }
+
+  .team .team-info-page h1 {
+    font-size: 2.2vh;
+  }
+
+  .team .team-info-page p {
+    font-size: 2vh;
+    margin-left: 2vw;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .team article {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: center;
+    height: inherit;
+  }
+
+  .team .pfp img {
+    height: 20vh;
+    border-radius: 150px;
+  }
+
+  .team .pfp p {
+    font-size: 2vw;
+  }
+
+  .team .team-info-page {
+    height: 80vh;
+    width: 55vw;
+    border-radius: 30px;
+    padding-left: 2vw;
+    margin-top: 3vh;
+  }
+
+  .team .team-info-page h1 {
+    font-size: 2vw;
+  }
+
+  .team .team-info-page p {
+    font-size: 1.5vw;
+    margin-left: 2vw;
+  }
 }

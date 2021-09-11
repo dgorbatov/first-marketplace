@@ -6,6 +6,7 @@ import { Icon } from '@iconify/react';
 import { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { getAuth } from "firebase/auth";
+import { list } from "@firebase/storage";
 
 initializeApp(config);
 const db = getFirestore();
@@ -106,6 +107,7 @@ function Item(props) {
         { gotListing.status === "a" &&
           <section>
             <h1 className="item-wrap" >{gotListing.basicinfo.name}</h1>
+            {gotListing.req && <p><strong>Request</strong></p> }
             <p className="item-wrap" ><strong>Location:</strong> {gotListing.basicinfo.city + (gotListing.basicinfo.country !== undefined && ( " - " + gotListing.basicinfo.country))}</p>
             <p>
                 <strong>Price:</strong> {gotListing.basicinfo.currency + gotListing.basicinfo.price}

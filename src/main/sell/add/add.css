@@ -1,3 +1,10 @@
+.add .req {
+  width: inherit;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 5vh;
+}
+
 @media only screen and (max-width: 550px) {
   .add, .add .add-submitted {
     display: flex;

@@ -1,5 +1,6 @@
 import "./buy.css"
 import config from "../../extra/config"
+import Footer from "./footer/footer";
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
@@ -189,6 +190,7 @@ function Buy(props) {
           ))
         }
       </section>
+      {!(window.matchMedia("only screen and (max-width: 550px)").matches) && <Footer />}
     </div>
   )
 }

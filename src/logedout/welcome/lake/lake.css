@@ -25,16 +25,6 @@
   width: 90vw;
 }
 
-.lake h1 {
-  top: 53vh;
-  font-size: 5vw;
-}
-
-.lake h2 {
-  top: 66vh;
-  font-size: 3vw;
-}
-
 .lake-logo {
   top: 32vh;
 }
@@ -43,6 +33,36 @@
   margin-bottom: 3vh !important;
 }
 
-.lake-logo {
-  height: 30vw;
+@media only screen and (max-width: 550px) {
+  .lake h1 {
+    top: 53vh;
+    font-size: 5vh;
+    color: rgb(255, 255, 255);
+  }
+
+  .lake h2 {
+    top: 66vh;
+    font-size: 3vh;
+    color: rgb(255, 255, 255);
+  }
+
+  .lake-logo {
+    height: 35vh;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .lake h1 {
+    top: 53vh;
+    font-size: 5vw;
+  }
+
+  .lake h2 {
+    top: 66vh;
+    font-size: 3vw;
+  }
+
+  .lake-logo {
+    height: 30vw;
+  }
 }

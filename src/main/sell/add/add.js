@@ -40,6 +40,7 @@ function Add(props) {
   const [newPics, setNewPics] = useState(false);
   const [picArr, setPicArr] = useState([]);
   const [currency, setCurrency] = useState("$");
+  const [request, setRequest] = useState(false);
 
   useState(async () => {
     if (id !== "new") {
@@ -84,16 +85,15 @@ function Add(props) {
         setCondition(data.tags.condition);
         setBrand(data.tags.brand);
         setPicArr(data.pictures);
+
+        if (data.req !== undefined) {
+          setRequest(data.req);
+        }
       }
     }
   }, []);
 
   function handleErrors() {
-    if (comp == null || brand == null || condition == null) {
-      setError("Please select a league, condition, and brand");
-      return -1;
-    }
-
     if (pictures.length > 5) {
       setError("No More Than 5 Pictures allowed");
       return -1;
@@ -196,7 +196,8 @@ function Add(props) {
       "create-time": Timestamp.now(),
       status: "a",
       uid: props.uid,
-      url: url.current.value
+      url: url.current.value,
+      req: request
     });
 
     let picture_urls = await uploadPics(list_doc.id);
@@ -240,6 +241,20 @@ function Add(props) {
       { !loading &&
         <article>
           <form onSubmit={handleSubmit}>
+            { !edit && <section className="req">
+              <article>
+                <input type="radio" name="req" checked={request}
+                  onChange={() => setRequest(true) }/>
+                <label>Request</label>
+              </article>
+
+              <article>
+                <input type="radio" name="req" checked={!request}
+                  onChange={() => setRequest(false) }/>
+                <label>Listing</label>
+              </article>
+            </section>}
+
             <section className="add-listing-centered">
               <input type="text" required placeholder="Product Name*" ref={name}/>
               <input type="text" required placeholder="City/State*" ref={city}/>
@@ -269,7 +284,7 @@ function Add(props) {
               <textarea maxLength={1000} ref={spec} placeholder="Specifications" />
             </section>
 
-            <section className="upload-pictures">
+            { !request && <section className="upload-pictures">
               <article>
                 <label className="custom-file-upload">
                   <input type="file" accept="image/*" multiple onChange={(file) => { setNewPics(true); setEditPictures([]); setPictures(Object.values(file.target.files)); } }/>
@@ -289,7 +304,7 @@ function Add(props) {
               {editPictures.map((file, index) => (
                 <img src={file} alt="upload by user" key={index+5}/>
               ))}
-            </section>
+            </section>}
 
             <section className="add-listing-left">
               <p>Delivery options*</p>
@@ -304,17 +319,17 @@ function Add(props) {
                 <label>Shipping</label>
               </section>
 
-              { showDelivery &&
+              { (showDelivery && !request) &&
                 <input type="number" required placeholder="Shipping Cost*" value={shippingCost}
                   onChange={(v) => setShippingCost(v.target.value) }/>
               }
-              { showDelivery &&
+              { (showDelivery && !request) &&
                 <input type="text" required placeholder="Shipping Speed*"value={shippingTime}
                 onChange={(val) => setShippingTime(val.target.value) }/>
               }
             </section>
 
-            <section className="add-listing-left">
+            { !request && <section className="add-listing-left">
               <p>Tags*</p>
 
               <section className="tags">
@@ -405,7 +420,7 @@ function Add(props) {
                   </article>
                 </section>
                 </section>
-            </section>
+            </section> }
 
             {edit ? <button>Publish Changes</button> : <button>Post</button>}
             <p className="add-error">{error}</p>

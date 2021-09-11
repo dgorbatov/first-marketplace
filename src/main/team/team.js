@@ -41,6 +41,7 @@ function Team() {
           <p>Rookie year: {team.creat} </p>
           <p>Number of Team Members: {team["num-mem"]}</p>
           <p>Team Number: {team.number}</p>
+          <p>Description: {team.description}</p>
         </section>
       </article>}
     </div>

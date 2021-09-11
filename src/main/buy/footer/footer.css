@@ -1,0 +1,48 @@
+.buy-footer {
+  background-color: #E5E5E5;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.links > p, .contact-us {
+  font-family: Petrona;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.5vw;
+  margin-left: 2vw;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.buy-footer img {
+  width: 14vw;
+  justify-self: center;
+}
+
+.icons {
+  margin-right: 2vw;
+}
+
+.icons img {
+  width: 4vw;
+  margin: 2vw;
+  cursor: pointer;
+}
+
+.buy-footer > section > *:hover {
+  opacity: 0.6;
+}
+
+.dark-main .buy-footer {
+  background-color: #939393 !important;
+}

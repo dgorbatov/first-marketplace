@@ -19,14 +19,33 @@
   font-style: bold;
 }
 
-.yard h1 {
-  top: 130vh;
-  font-size: 4.8vw;
-  left: 20.5vw;
+@media only screen and (max-width: 550px) {
+  .yard h1 {
+    top: 130vh;
+    font-size: 4.8vh;
+    left: 30vw;
+    color: rgb(255, 255, 255);
+
+  }
+
+  .yard h2 {
+    top: 150vh;
+    font-size: 2.5vh;
+    left: 40vw;
+    color: rgb(255, 255, 255);
+  }
 }
 
-.yard h2 {
-  top: 150vh;
-  font-size: 2.5vw;
-  left: 40vw;
+@media only screen and (min-width: 550px) {
+  .yard h1 {
+    top: 130vh;
+    font-size: 4.8vw;
+    left: 20.5vw;
+  }
+
+  .yard h2 {
+    top: 150vh;
+    font-size: 2.5vw;
+    left: 40vw;
+  }
 }

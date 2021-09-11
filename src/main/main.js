@@ -88,7 +88,7 @@ function Main() {
 
 
         <Route path="*" exact>
-          <Redirect to="/error/404" />
+          <Redirect to="/error/404"/>
         </Route>
       </Switch>
       </div> }

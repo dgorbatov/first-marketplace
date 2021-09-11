@@ -13,17 +13,6 @@
   align-items: center;
 }
 
-.links > p, .contact-us {
-  font-family: Petrona;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 1.5vw;
-  margin-left: 2vw;
-  text-decoration: none;
-  color: black;
-  cursor: pointer;
-}
-
 .footer img {
   width: 14vw;
   justify-self: center;
@@ -33,12 +22,45 @@
   margin-right: 2vw;
 }
 
-.icons img {
-  width: 4vw;
-  margin: 2vw;
-  cursor: pointer;
-}
-
 .footer > section > *:hover {
   opacity: 0.6;
+}
+
+@media only screen and (max-width: 550px) {
+  .links > p, .contact-us {
+    font-family: Petrona;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1vh !important;
+    margin-left: 2vw;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+  }
+
+
+  .icons img {
+    width: 6vw !important;
+    margin: 2vw;
+    cursor: pointer;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .links > p, .contact-us {
+    font-family: Petrona;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.5vw;
+    margin-left: 2vw;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+  }
+
+  .icons img {
+    width: 4vw;
+    margin: 2vw;
+    cursor: pointer;
+  }
 }
